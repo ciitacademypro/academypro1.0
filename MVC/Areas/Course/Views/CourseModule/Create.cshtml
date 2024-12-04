@@ -1,0 +1,108 @@
+﻿@model CourseModuleModel
+@{
+	ViewData["Title"] = "Create Course Module";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Create New Course Module</h2>
+		</div>
+	</div>
+
+	<form method="post" asp-action="create" asp-controller="courseModule" asp-area="course" id="formCreateCourse">
+
+		<div class="row">
+			<div class="col-12 ">
+				<div class="">
+					<div id="add-course-tab" class="">
+						<div class="">
+							<div class="course__form">
+								<div class="general_info10">
+									<div class="row">
+										<div class="col-lg-6 col-md-12">
+											<div class="mt-30 lbel25">
+												<label>Select Course Category*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" id="drpCourseCategory">
+												<option value="">Select Course Category</option>
+												@foreach (var item in ViewBag.CourseCategories)
+												{
+													<option value="@item.CourseCategoryId">@item.CourseCategoryName</option>
+												}
+											</select>
+										</div>
+										<div class="col-lg-6 col-md-6">
+											<div class="mt-30 lbel25">
+												<label>Select Course*</label>
+											</div>
+
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="CourseId">
+												<option value="">Select Course</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-12 col-md-12">
+										<div class="ui search focus mt-30 lbel25">
+											<label>Course Module Name*</label>
+											<div class="ui left icon input swdh19">
+												<input class="prompt srch_explore" type="text" asp-for="ModuleName" placeholder="Course Module Name here" data-purpose="edit-course-module-title" maxlength="60" value="">
+											</div>
+											<div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
+										</div>
+									</div>
+									<div class="col-lg-12 col-md-12">
+										<div class="ui search focus lbel25 mt-30">
+											<label>Short Description*</label>
+											<div class="ui form swdh30">
+												<div class="field">
+													<textarea rows="3" asp-for="ModuleDescription" placeholder="Course Module description here..."></textarea>
+												</div>
+											</div>
+											<div class="help-block">220 words</div>
+										</div>
+									</div>
+									<div class="cogs-toggle my-3">
+										<label class="switch">
+											<input type="checkbox" asp-for="Status" />
+											<span></span>
+										</label>
+										<label for="Status" class="lbl-quiz">Status</label>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+						<div class="step-footer step-tab-pager flex content-justify-center" style="margin-bottom:50px; display: flex; justify-content: center; align-items: center;">
+							<button type="submit" class="btn btn-lg btn-default steps_btn">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+
+	<script>
+
+		$("#drpCourseCategory").change(() => {
+			let selectedVal = $("#drpCourseCategory").val();
+			if (!selectedVal) return;
+			$("#CourseId").html(`<option value="">Select Course</option>`)
+			$("#CourseId").val("").select();
+
+
+			let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/Course/Course/GetIdNameList/${selectedVal}`;
+			$.get(url, (response) => {
+				const options = response.map(v => `<option value="${v.courseId}">${v.courseName}</option>`).join('');
+				$("#CourseId").append(options);
+			}).fail(console.log);
+		})
+
+	</script>
+
+}

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<LmsModels.Course.CourseModel>
+@{
+	ViewData["Title"] = "Courses";
+	int serialNumber = 1; // Initialize the serial number
+
+	ViewData["AreaName"] = "Course";
+	ViewData["ControllerName"] = "Course";	
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<a class="btn btn-default btn-success" style="float:right; position:relative;" asp-action="create" asp-controller="course">Create New Course </a>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Courses</h2>
+
+			@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-lg-12">
+			<div class="table-responsive mt-30">
+				<table class="table ucp-table">
+					<thead class="thead-s">
+						<tr>
+							<th class="text-center" scope="col">#</th>
+							<th class="cell-ta" scope="col">Course Name</th>
+							<th class="cell-ta" scope="col">Description</th>
+							<th class="cell-ta" scope="col">Category</th>
+							<th class="text-center" scope="col">Course Level</th>
+							<th class="text-center" scope="col">Status</th>
+							<th class="text-center" scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td class="text-center">@serialNumber</td>
+								<td class="cell-ta">@item.CourseName</td>
+								<td class="cell-ta">@item.CourseDescription</td>
+								<td class="cell-ta">@item.CourseCategoryName</td>
+								<td class="cell-ta">@item.CourseLevel</td>
+								<td class="text-center">
+									<i class="badge bg-@(item.StatusLabel=="Active" ? "success" : "danger")">@item.StatusLabel</i>
+								</td>
+								<td class="text-center">
+									<a asp-action="edit" asp-controller="course" asp-area="course" asp-route-id="@item.CourseId" title="Edit" class="btn gray-s btn-edit"><i class="uil uil-edit-alt"></i></a>
+
+									<button type="button" class="btn btn-primary btn-delete"
+											data-bs-toggle="modal"
+											data-delete_id="@item.CourseId"
+											data-delete_display="@item.CourseName"
+											data-bs-target="#delete_confirm_model">
+										<i class="uil uil-trash-alt"></i>
+									</button>
+
+
+								</td>
+							</tr>
+							serialNumber++;
+						}
+					</tbody>
+				</table>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelPartial.cshtml")
+}

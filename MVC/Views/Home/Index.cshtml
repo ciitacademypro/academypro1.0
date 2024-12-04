@@ -1,0 +1,30 @@
+﻿@{
+    // Retrieve currentUser and currentUserRoles from session
+    var currentUser = HttpContextAccessor.HttpContext.Items["CurrentUser"] as CurrentUser;
+
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>
+        <a class="btn bg-info text-white" asp-area="Identity" asp-controller="Account" asp-action="Login">
+            @if (currentUser != null)
+            {
+                    <span>Dashboard</span>
+            }else{
+                <span>Login</span>
+
+            }
+
+        </a>
+    </p>
+
+    @if(currentUser != null){
+        <p>
+            @currentUser?.Name (@currentUser?.Roles)
+        </p>
+    }
+
+</div>

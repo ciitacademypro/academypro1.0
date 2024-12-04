@@ -1,0 +1,94 @@
+﻿@model CountryModel
+@{
+    ViewData["Title"] = "Test page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="btn btn-default btn-success" style="float:right; position:relative;" id="btn-add-country-card">Add New Country </button>
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Countries List</h2>
+
+			@if (TempData["success"] != null)
+			{
+                <div class="alert alert-success mt-2">
+                    <p>@TempData["success"]</p>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="tab-from-content">
+                <div class="course__form">
+                    <div class="general_info10">
+
+                        <form method="post" asp-area="Admin" asp-controller="Country" asp-action="Create">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="ui search focus mt-30 lbel25">
+                                        <label>Country Name*</label>
+                                        <div class="ui left icon input swdh19">
+                                            <input class="prompt srch_explore" type="text" placeholder="Country Name here" asp-for="CountryName" maxlength="60">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="cogs-toggle my-3">
+                                        <label class="switch">
+                                            <input type="checkbox" asp-for="Status" />
+                                            <span></span>
+                                        </label>
+                                        <label for="Status" class="lbl-quiz">Status</label>
+                                    </div>
+
+                                    <div class="step-footer step-tab-pager ">
+                                        <input type="submit" value="Submit" class="btn btn-outline-success" />
+                                        <input type="reset" value="Cancel" onclick="hideCard()" class="btn btn-danger" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive mt-30">
+
+                <table class="table ucp-table">
+                    <thead class="thead-s">
+                    <tr>
+                        <th class="text-center" scope="col">ID</th>
+                            <th class="cell-ta" scope="col">Name</th>
+                            <th class="cell-ta" scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var f in ViewBag.TestData3)
+                    {
+                        <tr>
+                                <td class="text-center">@f.CountryId</td>
+                                <td class="cell-ta">@f.CountryName</td>
+                                <td class="cell-ta">
+                                <button class="btn btn-primary"> Edit</button>
+                                <button class="btn btn-danger"> Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>

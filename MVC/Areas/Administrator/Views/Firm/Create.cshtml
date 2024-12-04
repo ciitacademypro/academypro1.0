@@ -1,0 +1,76 @@
+﻿@model Firm
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h1>Create</h1>
+<a asp-action="Index" class="float-end">Back to List</a>
+
+<h4>Firm</h4>
+<hr />
+
+
+<form asp-action="Create" asp-controller="Firm" asp-area="Administrator">
+        @* <div class="row"> *@
+        @*     <div asp-validation-summary="All" class="text-danger"></div> *@
+        @* </div> *@
+
+        <div class="row">
+        @ViewData["LayoutMessage"]
+
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirmShortName" class="control-label"></label>
+                    <input asp-for="FirmShortName" class="form-control" />
+                    <span asp-validation-for="FirmShortName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirmName" class="control-label"></label>
+                    <input asp-for="FirmName" class="form-control" />
+                    <span asp-validation-for="FirmName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirmEmail" class="control-label"></label>
+                    <input asp-for="FirmEmail" class="form-control" />
+                    <span asp-validation-for="FirmEmail" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirmContact" class="control-label"></label>
+                    <input asp-for="FirmContact" class="form-control" />
+                    <span asp-validation-for="FirmContact" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                <select class="dropdown form-control" asp-for="Status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 col-md-12">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+      </form>
+
+<div>
+</div>
+

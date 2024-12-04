@@ -1,0 +1,70 @@
+﻿@using LmsModels.Administrator;
+@model IEnumerable<UserWithRolesViewModel>
+
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	int serialNumber = 1; // Initialize the serial number
+
+}
+
+@{
+    // Retrieve currentUser and currentUserRoles from session
+    var currentUser = HttpContextAccessor.HttpContext.Items["CurrentUser"] as CurrentUser;
+
+}
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-12">
+            <a class="btn btn-default btn-success" style="float:right; position:relative;" asp-action="create" asp-controller="Employee" asp-area="Employee">Add New Employee </a>
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Employees</h2>
+            @currentUser.FirmName
+            @await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+
+        </div>
+    </div>
+
+<div class="col-lg-12">
+    <div class="table-responsive mt-30">
+        <table class="table ucp-table">
+            <thead class="thead-s">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="cell-ta">Full Name</th>
+                    <th class="cell-ta">Employee ID</th>
+                    <th class="cell-ta">Email</th>
+                    <th class="cell-ta">Firm Name</th>
+                    <th class="cell-ta">Roles</th>
+                    <th class="text-center">Action</th>
+                </tr>
+		    </thead>
+			<tbody>
+				@foreach (var user in Model)
+				{
+                    <tr>
+                        <td class="text-center">@serialNumber</td>
+                        <td class="cell-ta">@user.Name</td>
+                        <td class="cell-ta">@user.Uid1</td>
+                        <td class="cell-ta">@user.Email</td>
+                        <td class="cell-ta">@user.FirmName</td>
+                        <td class="cell-ta">@string.Join(", ", user.Roles)</td>
+                            <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                        </td>
+
+                    </tr>
+                    serialNumber++;
+                }
+            </tbody>
+        </table>
+
+        </div>
+
+
+    </div>
+</div>
+</div>

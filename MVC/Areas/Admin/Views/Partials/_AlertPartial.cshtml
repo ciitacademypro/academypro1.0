@@ -1,0 +1,30 @@
+﻿@if (TempData["success"] != null)
+{
+	<div class="alert alert-success">
+		<p>@TempData["success"]</p>
+	</div>
+}
+
+@if (TempData["error"] != null)
+{
+	<div class="alert alert-danger">
+		<p>@TempData["error"]</p>
+	</div>
+}
+
+
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["msg"]
+    </div>
+}
+
+
+<script>
+
+	setTimeout(() => {
+		$('.alert').slideUp();
+	}, 3000);
+
+</script>

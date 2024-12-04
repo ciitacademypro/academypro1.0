@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=9">
+    <meta name="description" content="Gambolthemes">
+    <meta name="author" content="Gambolthemes">
+    <title>AcademyPro - @ViewData["Title"]</title>
+
+    <!-- Favicon Icon -->
+    <link rel="icon" type="~/image/png" href="~/images/fav.png">
+
+    <!-- Stylesheets -->
+    @* <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'> *@
+    <link href='~/vendor/unicons-2.0.1/css/unicons.css' rel='stylesheet'>
+    <link href="~/css/vertical-responsive-menu.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/responsive.css" rel="stylesheet">
+    <link href="~/css/night-mode.css" rel="stylesheet">
+
+    <!-- Vendor Stylesheets -->
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/vendor/semantic/semantic.min.css">
+
+    <style>
+        .sign_in_up_bg{
+            padding-top:50px;
+            height:85vh;
+        }
+    </style>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-dark" asp-area="" asp-controller="home" asp-action="Index" title="Manage">Home</a> *@
+                    @* </li> *@
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-dark" asp-area="" asp-controller="home" asp-action="privacy" title="Manage">privacy</a> *@
+                    @* </li> *@
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+    
+
+    <div class="sign_in_up_bg">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/semantic/semantic.min.js"></script>
+    <script src="~/js/night-mode.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

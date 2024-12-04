@@ -1,0 +1,125 @@
+﻿
+<nav class="vertical_nav">
+	<div class="left_section menu_left" id="js-menu">
+		<div class="left_section">
+			<ul>
+				<li class="menu--item">
+					<a asp-action="index" asp-controller="home" class="menu--link" title="Dashboard">
+						<i class="uil uil-apps menu--icon"></i>
+						<span class="menu--label">Dashboard FirmAdm</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="left_section">
+			<ul>
+
+				 <li class="menu--item menu--item__has_sub_menu"> 
+				 	<label class="menu--link" title="Courses"> 
+				 		<i class='uil uil-layers menu--icon'></i> 
+				 		<span class="menu--label">Courses</span> 
+				 	</label> 
+				 	<ul class="sub_menu"> 
+				 		<li class="sub_menu--item"> 
+				 			<a asp-action="index" asp-controller="course" asp-area="course" class="sub_menu--link"> 
+				 				Courses 
+				 			</a> 
+				 		</li> 
+				 		<li class="sub_menu--item"> 
+				 			<a asp-action="index" asp-controller="CourseModule" asp-area="course" class="sub_menu--link"> 
+				 				Course Modules 
+				 			</a> 
+				 		</li> 
+				 	</ul> 
+				 </li> 
+
+
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Employees">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Employees</span>
+					</label>
+					<ul class="sub_menu">
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="Employee" asp-area="Employee" class="sub_menu--link">Employees</a>
+						</li>
+					</ul>
+				</li>
+
+
+			</ul>
+		</div>
+		<div class="left_section pt-2" style="display:none;">
+
+			<ul>
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Employees">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Cofigurations</span>
+					</label>
+					<ul class="sub_menu">
+
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="role" asp-area="Administrator" class="sub_menu--link" title="Roles">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Roles</span>
+							</a>
+						</li>
+
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="coursecategory" asp-area="course" class="sub_menu--link" title="Setting">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Course Category</span>
+							</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="qualification" asp-area="Administrator" class="sub_menu--link" title="Qualifications">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Qualification</span>
+							</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="LeadSource" asp-area="Administrator" class="sub_menu--link" title="Lead Sources">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Lead Sources</span>
+							</a>
+						</li>
+
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="EnquiryFor" asp-area="Administrator" class="sub_menu--link" title="Enquiry For">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Enquiry For</span>
+							</a>
+						</li>
+
+
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="Country" asp-area="Administrator" class="sub_menu--link" title="Country">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Countires</span>
+							</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="State" asp-area="Administrator" class="sub_menu--link" title="State">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">States</span>
+							</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="City" asp-area="Administrator" class="sub_menu--link" title="City">
+								<i class='uil uil-cog menu--icon'></i>
+								<span class="menu--label">Cities</span>
+							</a>
+						</li>
+
+
+
+					</ul>
+				</li>
+
+
+			</ul>
+		</div>
+	</div>
+</nav>

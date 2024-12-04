@@ -1,0 +1,72 @@
+﻿@model Firm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>FirmModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FirmId" />
+            <div class="form-group">
+                <label asp-for="FirmShortName" class="control-label"></label>
+                <input asp-for="FirmShortName" class="form-control" />
+                <span asp-validation-for="FirmShortName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmName" class="control-label"></label>
+                <input asp-for="FirmName" class="form-control" />
+                <span asp-validation-for="FirmName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmLogo" class="control-label"></label>
+                <input asp-for="FirmLogo" class="form-control" />
+                <span asp-validation-for="FirmLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmEmail" class="control-label"></label>
+                <input asp-for="FirmEmail" class="form-control" />
+                <span asp-validation-for="FirmEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmContact" class="control-label"></label>
+                <input asp-for="FirmContact" class="form-control" />
+                <span asp-validation-for="FirmContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmWeb" class="control-label"></label>
+                <input asp-for="FirmWeb" class="form-control" />
+                <span asp-validation-for="FirmWeb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirmDescription" class="control-label"></label>
+                <input asp-for="FirmDescription" class="form-control" />
+                <span asp-validation-for="FirmDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeletedAt" class="control-label"></label>
+                <input asp-for="DeletedAt" class="form-control" />
+                <span asp-validation-for="DeletedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

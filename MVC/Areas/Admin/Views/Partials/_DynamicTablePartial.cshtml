@@ -1,0 +1,73 @@
+﻿@{
+	var columnDisplayNames = (Dictionary<string, string>)ViewData["ColumnDisplayNames"];
+	var listData = (IEnumerable<dynamic>)ViewData["ListData"];
+	var primaryKey = ViewData["primaryKey"];
+	var displayColumns = (List<string>)ViewData["DisplayColumns"]; // Columns used for delete confirm display
+																			// Check if displayColumns is null and handle accordingly
+	if (displayColumns == null)
+	{
+		throw new InvalidOperationException("DisplayColumns is null..................");
+	}
+
+	int serialNumber = 1;
+}
+
+<div class="row">
+
+	<div class="col-lg-12">
+		<div class="table-responsive mt-30">
+			<table class="table ucp-table">
+				<thead class="thead-s">
+					<tr>
+						<th class="text-center" scope="col">#</th>
+						@foreach (var column in columnDisplayNames)
+						{
+							<th class="cell-ta" scope="col">@column.Value</th>
+						}
+						<th class="text-center" scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					@foreach (var item in listData)
+					{
+						<tr>
+							<td class="text-center">@serialNumber</td>
+						@foreach (var column in columnDisplayNames)
+						{
+							var value = item.GetType().GetProperty(column.Key)?.GetValue(item, null);
+							<td class="cell-ta">@value</td>
+						}
+
+					<td class="text-center">
+						<a asp-action="edit" asp-area="@ViewData["AreaName"]" asp-controller="@ViewData["ControllerName"]" asp-route-id="@item.GetType().GetProperty(primaryKey.ToString())?.GetValue(item, null)" title="Edit" class="btn gray-s btn-edit"><i class="uil uil-edit-alt"></i></a>
+
+							@* Dynamically generate display name based on selected columns *@
+							@{
+								var deleteDisplayValue = "";
+								foreach (var displayColumn in displayColumns)
+								{
+									deleteDisplayValue += item.GetType().GetProperty(displayColumn)?.GetValue(item, null) + " ";
+								}
+								deleteDisplayValue = deleteDisplayValue.Trim();
+							}
+
+						<button type="button" class="btn btn-primary btn-delete"
+								data-bs-toggle="modal"
+								data-delete_id="@item.GetType().GetProperty(primaryKey.ToString())?.GetValue(item, null)"
+								data-delete_display="@deleteDisplayValue"
+								data-bs-target="#delete_confirm_model">
+							<i class="uil uil-trash-alt"></i>
+						</button>
+					</td>
+
+						</tr>
+						serialNumber++;
+					}
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>
+</div>

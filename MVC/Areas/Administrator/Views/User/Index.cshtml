@@ -1,0 +1,33 @@
+﻿@using LmsModels.Administrator;
+@model IEnumerable<UserWithRolesViewModel>
+
+<h1>Users</h1>
+@* <a asp-action="Create" class="btn btn-primary">Create user</a> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Firm Name</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.FirmName</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

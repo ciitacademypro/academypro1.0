@@ -1,0 +1,273 @@
+﻿@model CourseModel
+@{
+	ViewData["Title"] = "Create Course";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Create New Course</h2>
+		</div>
+	</div>
+
+	<form method="post" asp-action="create" asp-controller="course" id="formCreateCourse" >
+
+		@* <textarea rows="3" name="txtFeesJsonString" id="FeeDataList"></textarea> *@
+		<input type="hidden" id="FeeDataList" name="feesJsonString" value='' />
+
+
+
+	<div class="row">
+		<div class="col-12">
+			<div class="">
+				<div id="add-course-tab" class="">
+					<div class="">
+
+
+						<div class="course__form">
+							<div class="general_info10">
+								<div class="row">
+									<div class="col-lg-12 col-md-12">
+										<div class="ui search focus mt-30 lbel25">
+											<label>Course Title*</label>
+											<div class="ui left icon input swdh19">
+												<input class="prompt srch_explore" type="text" asp-for="CourseName" placeholder="Course title here"  data-purpose="edit-course-title" maxlength="60" value="">
+@* 												<div class="badge_num">60</div>
+ *@											</div>
+											<div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
+										</div>
+									</div>
+									<div class="col-lg-12 col-md-12">
+										<div class="ui search focus lbel25 mt-30">
+											<label>Short Description*</label>
+											<div class="ui form swdh30">
+												<div class="field">
+														<textarea rows="3" asp-for="CourseDescription" placeholder="Course description here..."></textarea>
+												</div>
+											</div>
+											<div class="help-block">220 words</div>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-12">
+										<div class="mt-30 lbel25">
+											<label>Course Level*</label>
+										</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="CourseLevel">
+											<option value="">Select Level</option>
+											<option value="Beginner">Beginner</option>
+											<option value="Intermediate">Intermediate</option>
+											<option value="Expert">Expert</option>
+										</select>
+									</div>
+									<div class="col-lg-6 col-md-6">
+										<div class="mt-30 lbel25">
+											<label>Course Category*</label>
+										</div>
+										<div class="ui selection dropdown cntry152 prompt srch_explore optgroup">
+												<input type="hidden" asp-for="CourseCategoryId" />
+											<div class="default text">Select</div>
+											<i class="dropdown icon"></i>
+											<div class="menu cate_menu">
+												@foreach (var item in ViewBag.CourseCategories)
+												{
+													<div class="item" data-value="@item.CourseCategoryId">@item.CourseCategoryName</div>
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+
+									<div class="cogs-toggle my-3">
+										<label class="switch">
+											<input type="checkbox" asp-for="Status" />
+											<span></span>
+										</label>
+										<label for="Status" class="lbl-quiz">Status</label>
+									</div>
+
+
+								<div class="row">
+									<div class="license_pricing mt-30 mb-30 col-md-3">
+										<label class="label25">Total Installments*</label>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="loc_group">
+													<div class="ui left icon input swdh19">
+														<input class="prompt srch_explore" type="number" min="1" max="12" placeholder="Total Installments" id="txtTotalInstallments" value="1">
+													</div>
+													<span class="slry-dt"> </span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="license_pricing mt-30 col-md-3">
+										<label class="label25">GST (%)*</label>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="loc_group">
+													<div class="ui left icon input swdh19">
+														<input class="prompt srch_explore" type="number" min="0" max="100" placeholder="18%"  id="textGstPercentage" value="">
+													</div>
+													<span class="slry-dt"> %</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+									<div class="license_pricing mt-30 mb-30 col-md-3">
+										<label class="label25">Total Amount*</label>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="loc_group">
+													<div class="ui left icon input swdh19">
+														<input class="prompt srch_explore" type="number" placeholder=" &#8377;0"  id="txtTotalAmount" value="">
+													</div>
+													<span class="slry-dt"> &#8377;</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="license_pricing mt-30 mb-30 col-md-3 text-center">
+										<button class="btn btn-outline-info  mt-30" id="addData">Confirm Fees</button>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<div class="table-responsive mt-30">
+											<table class="table ucp-table bordered" id="dataTable">
+												<thead class="thead-s">
+													<tr>
+														<th class="text-center" scope="col">#</th>
+														<th class="text-center" scope="col">Total Installments</th>
+														<th class="text-center" scope="col">Regular Amount</th>
+														<th class="text-center" scope="col">GST (%)</th>
+														<th class="text-center" scope="col">GST Amount</th>
+														<th class="text-center" scope="col">Total Amount</th>
+														<th class="text-center" scope="col">Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="text-center" colspan="6">
+															Fees not added!
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<div class="step-footer step-tab-pager flex content-justify-center" style="margin-bottom:50px; display: flex; justify-content: center; align-items: center;">
+						<button type="submit" class="btn btn-lg btn-default steps_btn">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+
+@section css{
+	<link href="~/css/jquery-steps.css" rel="stylesheet">
+}
+
+
+@section Scripts{
+
+	<script src="~/js/jquery-steps.min.js"></script>
+
+	<script>
+
+
+		// Bind the delete event after the table is rendered
+
+		var dataArray = [];
+
+		function renderTable() {
+			let tableBody = $('#dataTable tbody');
+			tableBody.empty(); // Clear the table before rendering
+
+			$.each(dataArray, function (index, item) {
+				let row = `<tr>
+											<td class="text-center" >${index + 1}</td>
+											<td class="text-center" >${item.txtTotalInstallments}</td>
+											<td class="text-center" >${item.txtTotalAmount}</td>
+											<td class="text-center" >${item.textGstPercentage}</td>
+											<td class="text-center" >${(item.txtTotalAmount * item.textGstPercentage) / 100} </td>
+											<td class="text-center" >${item.txtTotalAmount + (item.txtTotalAmount * item.textGstPercentage) / 100}</td>
+											<td class="text-center" ><button title="Delete" class="gray-s delete-item" onclick="deleteFeesItem(${index})" data-index="${index}"><i class="uil uil-trash-alt"></i></button></td>
+										</tr>`;
+				tableBody.append(row);
+			});
+		}
+
+
+
+		function deleteFeesItem(itemIndex) {
+			dataArray.splice(itemIndex, 1); // Remove the item from the array
+			renderTable(); // Re-render the table
+		}
+
+
+
+		$('.delete-item2').click(function (e) {
+			alert('hi');
+			// e.preventDefault();
+			let itemIndex = $(this).data('index'); // Get the index of the item to delete
+			dataArray.splice(itemIndex, 1); // Remove the item from the array
+			renderTable(); // Re-render the table
+		});
+
+		// 
+
+		$("#formCreateCourse").submit((e)=>{
+			e.preventDefault();
+			let customData = JSON.stringify(dataArray);
+			$('#FeeDataList').val(customData);
+			e.target.submit();
+		})
+
+
+		$(document).ready(function () {
+
+			$('#addData').click(function (e) {
+				e.preventDefault();
+				// Get the values from the text boxes
+				let txtTotalInstallments = $('#txtTotalInstallments').val();
+				let textGstPercentage = $('#textGstPercentage').val();
+				let txtTotalAmount = $('#txtTotalAmount').val();
+
+				// Add the values to the array
+				dataArray.push({ txtTotalInstallments: parseInt(txtTotalInstallments), textGstPercentage: parseInt(textGstPercentage), txtTotalAmount: parseInt(txtTotalAmount)});
+
+				// Clear the input fields
+				$('#txtTotalInstallments').val('');
+				$('#textGstPercentage').val('');
+				$('#txtTotalAmount').val('');
+
+				$('#txtTotalInstallments').focus();
+
+
+				// Render the array in the table
+				renderTable();
+			});
+
+
+
+		});
+
+	</script>
+
+}

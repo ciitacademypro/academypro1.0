@@ -1,0 +1,85 @@
+﻿
+<nav class="vertical_nav">
+	<div class="left_section menu_left" id="js-menu">
+		<div class="left_section">
+			<ul>
+				<li class="menu--item">
+					<a asp-action="index" asp-controller="home" class="menu--link" title="Dashboard">
+						<i class="uil uil-apps menu--icon"></i>
+						<span class="menu--label">Dashboard</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="left_section">
+			<ul>
+
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Courses">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Courses</span>
+					</label>
+					<ul class="sub_menu">
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="course" asp-area="course" class="sub_menu--link">
+								Courses
+							</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="CourseModule" asp-area="course" class="sub_menu--link">
+								Course Modules
+							</a>
+						</li>
+					</ul>
+				</li>
+
+
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Students">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Students</span>
+					</label>
+					<ul class="sub_menu">
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="Lead" asp-area="Student" class="sub_menu--link">Leads</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="enquiry" asp-area="Student" class="sub_menu--link">Enquiries</a>
+						</li>
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="student" asp-area="Student" class="sub_menu--link">Students</a>
+						</li>
+					</ul>
+				</li>
+
+
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Employees">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Employees</span>
+					</label>
+					<ul class="sub_menu">
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="Employee" asp-area="Employee" class="sub_menu--link">Employees</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" title="Employees">
+						<i class='uil uil-layers menu--icon'></i>
+						<span class="menu--label">Batches</span>
+					</label>
+					<ul class="sub_menu">
+						<li class="sub_menu--item">
+							<a asp-action="index" asp-controller="Batch" asp-area="Batch" class="sub_menu--link">Schedule Batch</a>
+						</li>
+					</ul>
+				</li>
+
+
+			</ul>
+		</div>
+	</div>
+</nav>

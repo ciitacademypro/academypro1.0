@@ -1,0 +1,209 @@
+@model CourseModuleContentModel
+@{
+    ViewData["Title"] = "Course Module Contents";
+    ViewData["AreaName"] = "Course";
+	ViewData["ControllerName"] = "CourseModule";
+
+    ViewData["AreaNameCustom"] = ViewData["AreaName"];
+    ViewData["ControllerNameCustom"] = ViewData["ControllerName"];
+    ViewData["ActionNameCustom"] = "DeleteContent";
+    ViewData["ActionNameCustom"] = "DeleteContent";
+	int serialNumber = 1;
+
+}
+
+<style>
+    .bg-success-light{
+        @* background-color: #1987541f !important; *@
+    }
+    .bg-danger-light{
+        @* background-color: #3b3b3b1f !important; *@
+        color:red !important;
+    }
+
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<a class="btn btn-default btn-success mx-1" asp-action="Index" asp-controller="@ViewData["ControllerName"]" asp-area="@ViewData["AreaName"]"  style="float:right; position:relative;"  ><i class="fas fa-home"></i> &nbsp; Course Modules</a>
+			<a class="btn btn-default btn-success" style="float:right; position:relative;" id="btn-toggle-form" ><i class="fas fa-plus-circle"></i> &nbsp; Create New Content</a>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> @ViewData["Title"]</h2>
+            <div class="">
+                <nav class="breadcrumb">
+                    <a class="breadcrumb-item" style="font-size: 16px;" href="javascript:;">@ViewBag.courseModule.CourseCategoryName</a>
+                    <a class="breadcrumb-item" style="font-size: 16px;" href="javascript:;">@ViewBag.courseModule.CourseName</a>
+                    <a class="breadcrumb-item" style="font-size: 16px;" href="javascript:;">@ViewBag.courseModule.ModuleName</a>
+                    @* <span class="breadcrumb-item active" aria-current="page">Active</span> *@
+                </nav>
+            </div>
+            
+			@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+		</div>
+	</div>
+
+    <div class="row">
+        <div class="col-12" id="left">
+			<div class="table-responsive mt-30">
+                <table class="table ucp-table table-bordered table-hover table-stripped">
+                <thead class="thead-s">
+                    <tr>
+                        <th class="text-center" scope="col">#</th>
+                        <th class="cell-ta" scope="col">Content Name</th>
+                        <th class="cell-ta" scope="col">Description</th>
+                        <th class="cell-ta" scope="col">Duration</th>
+                        <th class="text-center" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach(var item in ViewBag.Contents)
+                    {
+                        
+
+                    string bg = item.StatusLabel=="Active"?"bg-success-light":"bg-danger-light";
+
+                    <tr>
+                        <td class="text-center @bg" >@serialNumber</td>
+                        <td class="cell-ta @bg" >@item.ContentName</td>
+                        <td class="cell-ta @bg">@Html.Raw(@item.ContentDescription)</td>
+                        <td class="cell-ta @bg">@item.DurationInHrs Hrs</td>
+                        <td class="text-center p-0 m-0 @bg">
+									<button type="button" class="btn button btn-primary btn-edit p-2 m-1"
+											data-content_id="@item.CourseModuleContentId"
+											data-content_name="@item.ContentName"
+											data-content_description="@item.ContentDescription"
+											data-content_duration="@item.DurationInHrs"
+                                            data-content_status = "@item.StatusLabel">
+										<i class="uil uil-edit-alt"></i>
+									</button>
+
+                                    
+									<button type="button" class="btn btn-primary btn-delete p-2 m-1"
+											data-bs-toggle="modal"
+											data-delete_id="@item.CourseModuleContentId"
+											data-delete_display="@item.CourseName : @item.ModuleName : @item.ContentName"
+                                            data-other_id = "@ViewBag.Id"
+											data-bs-target="#delete_confirm_model">
+										<i class="uil uil-trash-alt"></i>
+									</button>
+                            
+
+                        </td>
+                    </tr>
+                        serialNumber++;
+                    }
+
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-4 " id="right" style="display: none;">
+
+            <div
+                class="card mt-30 "
+            >
+                <div class="card-header">
+                    <h5 class="card-title py-2">
+                        <i class="fas fa-book"></i> &nbsp; <span id="formTitle">Add</span> Course Module Contents</h5>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" id="content_form" asp-action="CreateContents" asp-controller="@ViewData["ControllerName"]" asp-area="@ViewData["AreaName"]" >
+                        <input type="hidden" asp-for="CourseModuleContentId" />
+                        <input type="hidden" asp-for="CourseModuleId" value="@ViewBag.Id" />
+
+                        <div class="mb-3">
+                            <label asp-for="ContentName" class="form-label">Content Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                asp-for="ContentName"
+                                placeholder="Content Name"
+                            />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="ContentDescription" class="form-label">Content Description</label>
+                            <textarea class="form-control" asp-for="ContentDescription" rows="6" placeholder="Content Description Here"></textarea>
+                        </div>
+                        
+
+                        <div class="mb-3">
+                            <label asp-for="DurationInHrs" class="form-label">Duration (In Hrs)</label>
+                            <input
+                                type="number"
+                                min="1"
+                                max="20"
+                                class="form-control"
+                                asp-for="DurationInHrs"
+                                placeholder="Duration (In Hrs)"
+                            />
+                        </div>
+
+                        <div class="cogs-toggle my-3">
+                            <label class="switch">
+                                <input type="checkbox" asp-for="Status"  />
+                                <span></span>
+                            </label>
+                            <label asp-for="Status" class="lbl-quiz">Status</label>
+                        </div>
+
+                        <div class="step-footer step-tab-pager flex content-justify-center" style=" display: flex; justify-content: center; align-items: center;">
+                            <button type="submit" class="btn btn-lg btn-default steps_btn">Save Content</button>
+                        </div>
+
+                        
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelCustomPartial.cshtml")
+
+    <script>
+        $('#btn-toggle-form').click(()=>{
+            $('#formTitle').text('Add');
+            $('#left').removeClass('col-12').addClass('col-8');
+            $('#right').show();            
+            // change action of form content_form for create
+            $('#content_form').attr('action', '@Url.Action("CreateContents", "CourseModule", new { area = "Course" })');
+        })
+
+        $('.btn-edit').click(function(){
+
+
+            $('#formTitle').text('Update');
+            // change action of form content_form for update
+            $('#content_form').attr('action', '@Url.Action("UpdateContents", "CourseModule", new { area = "Course" })');
+
+            let id = $(this).data('content_id');
+            let content_name = $(this).data('content_name');
+            let content_description = $(this).data('content_description');
+            let content_duration = $(this).data('content_duration');
+            let content_status = $(this).data('content_status');
+
+            //  alert(`${id} : ${content_name} : ${content_description} : ${content_duration} : ${content_status}`);
+
+            $('#CourseModuleContentId').val(id);
+            $('#ContentName').val(content_name);
+            $('#ContentDescription').val(content_description);
+            $('#DurationInHrs').val(content_duration);
+
+
+            $('#left').removeClass('col-12').addClass('col-8');
+            $('#right').show();            
+        })
+
+    </script>
+
+}

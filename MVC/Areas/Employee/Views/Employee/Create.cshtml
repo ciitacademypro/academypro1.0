@@ -1,0 +1,115 @@
+﻿@using LmsModels.Employee
+@model EmployeeModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Add Employee</h2>
+		</div>
+	</div>
+
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success mt-2">
+            <p>@TempData["success"]</p> 
+        </div>
+    }
+
+
+	<form method="post" asp-action="create" asp-controller="Employee" asp-area="Employee" >
+        @Html.AntiForgeryToken()
+
+		<div class="row">
+            <div class="col-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+			<div class="col-12">
+				<div class="course__form">
+					<div class="general_info10">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                    <h2>Create a new account.</h2>
+                                    <hr />
+
+                                    <div class="form-floating mb-3">
+                                        <!-- Added Roles field -->
+                                        <select asp-for="BranchId" class="form-control">
+                                            @foreach (var branch in ViewBag.Branches){
+                                                <option value="@branch.BranchId">@branch.BranchName</option>
+                                            }
+                                        </select>
+                                        <label asp-for="BranchId">Select Branch</label>
+                                        <span asp-validation-for="BranchId" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="FirstName LastName" />
+                                        <label asp-for="Name">Employee Name</label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
+                                        <label asp-for="Email">Email</label>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="PhoneNumber" class="form-control" autocomplete="PhoneNumber" aria-required="true" placeholder="Phone Number" />
+                                    <label asp-for="PhoneNumber">Phone Number</label>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class=" mb-3 add_stream_content">
+
+                                    <div class="add_stream_content">
+                                        <h4 class="strm_title1">Roles</h4>
+                                        <div class="ui toggle checkbox _1457s2 mb-3">
+                                            <input type="checkbox" name="Roles" value="Trainer" checked>
+                                            <label>Trainer</label>
+                                        </div>
+                                        <div class="ui toggle checkbox _1457s2 mb-3">
+                                            <input type="checkbox" name="Roles" value="Coordinator">
+                                            <label>Coordinator</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Added Roles field -->
+                                    @* <select asp-for="Roles" class="form-control" multiple> *@
+                                    @*     <option value="Trainer" selected>Trainer</option> *@
+                                    @*     <option value="Coordinator" selected>Coordinator</option> *@
+                                    @* </select> *@
+                                    @* <label asp-for="Roles">Roles</label> *@
+                                    <span asp-validation-for="Roles" class="text-danger"></span>
+                                </div>
+                                    <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                            </div>
+                            <div class="col-md-6 col-md-offset-2">
+                                <section>
+                                    <h3>Use another service to register.</h3>
+                                    <hr />
+                                </section>
+                            </div>
+                                    <span asp-validation-for="Roles" class="text-danger"></span>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</form>
+
+</div>
+
+@section css {
+    
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
