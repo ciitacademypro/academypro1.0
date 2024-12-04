@@ -1,0 +1,568 @@
+﻿@{
+	ViewData["Title"] = "Create Batches";
+
+	ViewData["AreaName"] = "Batch";
+	ViewData["ControllerName"] = "Batch";
+}
+
+
+<div class="container">
+	<div class="row">
+
+		@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Create New Batch</h3>
+				</div>
+				<div class="card-body p-3">
+
+						<div class="row">
+								@* <div class="col-3 mb-3">
+									<label for="" class="form-label">Batch Name</label>
+									<input
+										type="text"
+										name=""
+										id=""
+										class="form-control"
+										placeholder=""
+										aria-describedby="helpId"
+									/>
+								</div>
+								<div class="col-3 mb-3">
+									<label for="" class="form-label">Course Category</label>
+									<select
+										class="form-select form-select-md"
+										name=""
+										id=""
+									>
+										<option selected>Select Course Category</option>
+										<option value="">New Delhi</option>
+										<option value="">Istanbul</option>
+										<option value="">Jakarta</option>
+									</select>
+								</div>
+								
+
+
+								<div class="col-3 mb-3">
+									<label for="" class="form-label">Course Name</label>
+									<select
+										class="form-select form-select-md"
+										name=""
+										id=""
+									>
+										<option selected>Select Course</option>
+										<option value="">New Delhi</option>
+										<option value="">Istanbul</option>
+										<option value="">Jakarta</option>
+									</select>
+								</div>
+								
+								<div class="col-3 mb-3">
+									<label for="" class="form-label">Batch End Date</label>
+									<input
+										type="date"
+										name=""
+										id=""
+										class="form-control"
+										placeholder=""
+										aria-describedby="helpId"
+									/>
+								</div>
+								
+								
+								 *@
+
+
+								<div class="col-3 mb-3">
+									<label for="courseModuleId" class="form-label">Course Module</label>
+									<select
+										class="form-select form-select-md"
+										id="courseModuleId"
+									>
+										<option value="" selected>Select Course Module</option>
+
+										@foreach(var module in ViewBag.CourseModules)
+										{
+											<option value="@module.CourseModuleId">@module.ModuleName</option>
+										}
+									</select>
+								</div>
+
+								<div class="col-3 mb-3">
+									<label for="startDate" class="form-label">Batch Start Date <b ></b></label>
+									<input
+										type="date"
+										id="startDate"
+										class="form-control"
+									/>
+								</div>
+
+								<div class="col-3 mb-3" id="lblEndDate" style="display: none;">
+									<label for="startDate" class="form-label">Batch End Date </label>
+									<input
+										type="date"
+										id="endDate"
+										class="form-control"
+									/>
+								</div>
+
+
+								<div class="col-3 mb-3">
+									<label for="batchDuration" class="form-label">Daily Batch Duration (In Hrs)</label>
+									<input
+										type="number"
+										value="2"
+										id="batchDuration"
+										class="form-control"
+										placeholder="2 Hrs"
+										aria-describedby="helpId"
+									/>
+								</div>
+								<div class="col-3 mb-3">
+									<label for="startTime" class="form-label">Daily Batch Start Time</label>
+									<input
+										type="time"
+										value="09:00"
+										id="startTime"
+										class="form-control"
+									/>
+								</div>
+
+								<div class="col-3 mb-3">
+									<label for="classRoom" class="form-label">Class Room</label>
+									<select
+										class="form-select form-select-md"
+										id="classRoom"
+									>
+										<option value="">Select Class Room</option>
+										@foreach(var classRoom in ViewBag.ClassRooms)
+										{
+											<option value="@classRoom.ClassRoomId">@classRoom.ClassRoomName</option>
+										}
+
+									</select>
+								</div>
+
+								<div class="col-3 mb-3">
+									<label for="trainer" class="form-label">Trainer / Tutor Name</label>
+									<select
+										class="form-select form-select-md"
+										id="trainer"
+									>
+									
+										<option value="">Select Trainer</option>
+										@foreach(var trainer in ViewBag.Trainers)
+										{
+											<option value="@trainer.Id">@trainer.Name</option>
+										}
+									</select>
+								</div>
+						</div>
+
+						<div class="row my-4 py-2" style="background: #e0e0e0;">
+
+
+
+							<div class="row justify-content-center align-items-center g-2 m-2 " >
+								<h4>Select Days</h4>
+								
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="1"
+											name="BatchDays[]"
+											id="day_Monday"
+											checked
+										/>
+										<label class="form-check-label" for="day_Monday"> Monday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="2"
+											name="BatchDays[]"
+											id="day_Tuesday"
+											checked
+										/>
+										<label class="form-check-label" for="day_Tuesday"> Tuesday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="3"
+											name="BatchDays[]"
+											id="day_Wednesday"
+											checked
+										/>
+										<label class="form-check-label" for="day_Wednesday"> Wednesday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="4"
+											name="BatchDays[]"
+											id="day_Thursday"
+											checked
+										/>
+										<label class="form-check-label" for="day_Thursday"> Thursday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="5"
+											name="BatchDays[]"
+											id="day_Friday"
+											checked
+										/>
+										<label class="form-check-label" for="day_Friday"> Friday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="6"
+											name="BatchDays[]"
+											id="day_Saturday"
+										/>
+										<label class="form-check-label" for="day_Saturday"> Saturday </label>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value="0"
+											name="BatchDays[]"
+											id="day_Sunday"
+										/>
+										<label class="form-check-label" for="day_Sunday"> Sunday </label>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+								<div class="step-footer">
+									<input type="button" onclick="generateSchedule()" id="generateSchedule"  value="Generate Batch Schedule" class="btn btn-outline-danger" />
+									<input type="button" onclick="confirmSchedule()" id="confirmSchedule" style="display: none;"  value="Confirm Batch Schedule" class="btn btn-outline-danger" />
+								</div>							
+						</div>
+
+						<div class="row mt-4 pt-3" id="section-tblBatchSchedule" style="display:none;">	
+							<h3 id="lblBatchName"></h3>						
+							<table class="table ui celled table-hover">
+							  <thead>
+								<tr>
+									<th>#</th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Contents</th>
+									<th>Class Room</th>
+									<th>Trainer</th>
+							  </tr></thead>
+							  <tbody id="tblBatchSchedule">
+							  </tbody>
+							</table>
+
+						</div>
+
+				</div>
+			</div>
+						
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+
+	<script>
+
+			const protocol = window.location.protocol;
+			const hostname = window.location.hostname;
+			const port = window.location.port;
+			const baseUrl = port ? `${protocol}//${hostname}:${port}` : `${protocol}//${hostname}`;
+
+
+		function splitContentsByDate(data, start_date, daily_hours, holidays) {
+			let schedule = [];
+			let currentDate = new Date(start_date);
+			let remainingHours = daily_hours;
+			let currentDayContents = [];
+			let currentContentIndex = 0;
+			let contentDurationLeft = 0; // Track remaining content duration if split
+			let partiallyCompletedContentId = null; // Track the content that is split across days
+			let partiallyCompletedContentTitle = null; // Track the content title when split
+			const trainer = $('#trainer').val(); 
+
+			// Convert holidays to a Set for quick lookup
+			const holidaySet = new Set(holidays);
+
+			// Get the values of unchecked checkboxes
+			const offDays = $("input[name='BatchDays[]']:checkbox:not(:checked)").map(function() {
+				return $(this).val();
+			}).get();
+
+
+			while (currentContentIndex < data.length || contentDurationLeft > 0) {
+				// Skip weekends and holidays
+				while (holidaySet.has(currentDate.toISOString().split('T')[0]) || offDays.includes(currentDate.getDay().toString())) {
+					currentDate.setDate(currentDate.getDate() + 1);
+				}
+
+				let currentContent = data[currentContentIndex];
+				
+				// If content duration is left from the previous day, use it
+				if (contentDurationLeft === 0) {
+					contentDurationLeft = currentContent.duration;
+					partiallyCompletedContentId = currentContent.id;
+					partiallyCompletedContentTitle = currentContent.title; // Capture the title
+				}
+				
+				// Check if we can fit the current content or its remaining part
+				if (remainingHours >= contentDurationLeft) {
+					// We can fit the full remaining content in the current day
+					if (!currentDayContents.some(content => content.id === partiallyCompletedContentId)) {
+						currentDayContents.push({ id: partiallyCompletedContentId, title: partiallyCompletedContentTitle });
+					}
+					remainingHours -= contentDurationLeft; // Deduct the hours from remaining
+					currentContentIndex++; // Move to the next content
+					contentDurationLeft = 0; // Reset for the next content
+					partiallyCompletedContentId = null; // Reset since this content is fully done
+					partiallyCompletedContentTitle = null; // Reset since title is fully done
+				} else {
+					// If we can't fit the entire content, split it across days
+					if (!currentDayContents.some(content => content.id === partiallyCompletedContentId)) {
+						currentDayContents.push({ id: partiallyCompletedContentId, title: partiallyCompletedContentTitle });
+					}
+					contentDurationLeft -= remainingHours; // Deduct hours used today
+					remainingHours = 0; // No more hours left for today
+				}
+
+				// If the current day is full, move to the next day
+				if (remainingHours === 0 || currentContentIndex === data.length) {
+					schedule.push({
+						ExpectedDateTime : currentDate.toISOString().split('T')[0],
+						ExpectedTrainerId : trainer,
+						content_ids: currentDayContents.map(content => content.id), // Extract only the ids
+						content_names: currentDayContents.map(content => content.title) // Extract only the titles
+					});
+					currentDate.setDate(currentDate.getDate() + 1);
+					remainingHours = daily_hours; // Reset the remaining hours for the next day
+					currentDayContents = []; // Clear contents for the new day
+				}
+			}
+
+			return schedule;
+		}
+
+			function generateSchedule() {
+				$('#generateSchedule').val("Re-Generate Batch");
+				$('#confirmSchedule').show();
+				const courseModuleId = $('#courseModuleId').val(); 
+				const startDate = $('#startDate').val(); 
+				const batchDuration = $('#batchDuration').val(); 
+				const startTime = $('#startTime').val(); 
+				const classRoom = $('#classRoom').val(); 
+				const trainer = $('#trainer').val(); 
+				let trainerName = $('#trainer').find('option:selected').text();
+
+
+				if(courseModuleId == "" || startDate=="" || batchDuration=="" || startTime=="" || classRoom=="" || trainer ==""){
+					alert("Please fill all the fields");
+					return;
+				}
+
+				// Split start time into hours and minutes, and convert to numbers
+				let [hours, minutes] = startTime.split(':').map(Number);
+
+				// Convert the start time to total minutes and add batchDuration in minutes
+				let totalMinutes = hours * 60 + minutes + batchDuration * 60;
+
+				// Calculate the end hours and minutes
+				let finalHours = Math.floor(totalMinutes / 60) % 24; // Convert back to hours and handle overflow
+				let finalMinutes = totalMinutes % 60; // Remaining minutes after calculating hours
+
+				// Format the end time to HH:MM
+				let endTime = `${finalHours.toString().padStart(2, '0')}:${finalMinutes.toString().padStart(2, '0')}`;
+
+
+				// Create a Date object from the startDate
+				const dateObj = new Date(startDate);
+
+				// Get day, month, and year
+				const day = String(dateObj.getDate()).padStart(2, '0'); // Day with leading zero
+				const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Month with leading zero (getMonth is 0-indexed)
+				const year = String(dateObj.getFullYear()).slice(-2); // Last two digits of year
+
+				// Combine to get the final format
+				const formattedDate = `${day}${month}${year}`;
+				let batchName = `B-${courseModuleId}-${formattedDate}-${hours}${minutes}`;
+
+				$('#lblBatchName').text('#'+batchName);
+
+				// fetch Holidays and Contents data in parallel
+				let holidaysRequest = $.get(`${baseUrl}/Admin/Holiday/GetDateList`);
+				let dataRequest = $.get(`${baseUrl}/course/courseModule/GetIdNameDurationList/${courseModuleId}`);
+				
+				// Use Promise.all to wait for both requests to finish
+				Promise.all([holidaysRequest, dataRequest])
+					.then(([holidays, data]) => {
+						let finalSchedule = splitContentsByDate(data, startDate, batchDuration, holidays);
+
+						localStorage.setItem("finalSchedule", JSON.stringify(finalSchedule));
+
+						let contentHtml = ``;
+						let serialNumber = 1;
+						finalSchedule.forEach(result =>{
+							contentHtml += `
+									<tr>
+									<td>${serialNumber++}</td>
+									<td >${result.ExpectedDateTime} </td>
+									<td >${startTime} To ${endTime} <span style="float:right;">(${batchDuration} Hrs)</span></td>
+									<td >
+											<ul class="list-group list-group-flush">`;
+											
+											result.content_names.forEach(content =>{
+												contentHtml += `<li class="list-group-item">${content}</li>`;
+											})
+
+									contentHtml += `</ul>
+									</td>
+									<td> ${classRoom} </td>								  
+									<td> ${trainerName} </td>								  
+									</tr>
+							`;							
+						})
+
+							$('#tblBatchSchedule').html(contentHtml);
+	
+							$('#section-tblBatchSchedule').show();
+	
+						console.log(finalSchedule);
+
+						localStorage.setItem('finalSchedule', JSON.stringify(finalSchedule));
+
+						let lastDate = finalSchedule[finalSchedule.length - 1].ExpectedDateTime;
+						$('#lblEndDate').show();
+						$('#endDate').val(lastDate)
+					})
+					.catch(error => {
+						console.error("Failed to fetch required data:", error);
+					});
+			}
+
+
+			function confirmSchedule(){
+				// BranchId
+				let BatchCode = $('#lblBatchName').text().replace('#','').trim();
+				let CourseModuleId = $('#courseModuleId').val();
+				let TrainerId = $('#trainer').val();
+				let ClassRoomId = $('#classRoom').val();
+				let StartDate = $('#startDate').val();
+				let EndDate = $('#endDate').val();
+				let StartTime = $('#startTime').val();
+				let BatchDurationInHr = $('#batchDuration').val();
+
+				const offDays = $("input[name='BatchDays[]']:checkbox:checked").map(function() {
+					return $(this).val();
+				}).get();
+
+				console.log("Working Days: ",offDays);
+
+				$('#loading').show();
+
+
+				let finalSchedule =  localStorage.getItem("finalSchedule");
+				if(finalSchedule){
+					finalSchedule = JSON.parse(finalSchedule);
+				}
+
+	
+					let batchScheduleItems = finalSchedule.map(schedule => ({
+						ExpectedDateTime: schedule.ExpectedDateTime,
+						ExpectedTrainerId: schedule.ExpectedTrainerId,
+						ContentIds: schedule.content_ids,
+						ContentNames: schedule.content_names
+					}));
+
+				
+
+				let batchData = {
+					"BatchCode": BatchCode,
+					"CourseModuleId": CourseModuleId,
+					"TrainerId": TrainerId,
+					"ClassRoomId": ClassRoomId,
+					"StartDate": StartDate,
+					"EndDate": EndDate,
+					"StartTime": StartTime,
+					"BatchDurationInHr": BatchDurationInHr,
+					"WeekDaysList" : offDays,
+					"BatchSchedule": finalSchedule,
+					"Items": batchScheduleItems
+				};
+				console.log(batchData);
+
+				// Combine batch data and schedule items into one object
+				let dataToSend = {
+					batch: batchData,
+					batchScheduleItem: batchScheduleItems
+				};
+
+
+
+				$.post(`${baseUrl}/Batch/Batch/Create`,dataToSend,(response)=>{
+					console.log(response);
+					if(response.success == true){
+						let lastId = response.data;
+
+						let finalSchedule =  localStorage.getItem("finalSchedule");
+						if(finalSchedule){
+							finalSchedule = JSON.parse(finalSchedule);
+						}
+
+
+							alert(response.message)
+							window.location.reload();
+
+
+						console.log(finalSchedule);
+
+					}
+				}).fail((err)=>{
+					console.log(err);
+					alert(err);
+				}).always(()=>{
+					$('#loading').hide();
+				});
+
+			}
+
+	</script>
+}

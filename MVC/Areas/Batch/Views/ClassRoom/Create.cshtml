@@ -1,0 +1,213 @@
+﻿@model ClassRoomModel
+@{
+	ViewData["Title"] = "Class Rooms";
+	int serialNumber = 1; // Initialize the serial number
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<button class="btn btn-default btn-success" style="float:right; position:relative;" id="btn-add-classroom-card">Add New Class Room </button>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Create New Class Room</h2>
+
+			@if (TempData["success"] != null)
+			{
+				<div class="alert alert-success mt-2">
+					<p>@TempData["success"]</p>
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="row" id="card-ClassRoom-create" style="display:none;">
+		<div class="col-12">
+			<div class="tab-from-content">
+				<div class="course__form">
+					<div class="general_info10">
+						<form method="post" id="myForm" asp-action="create" asp-controller="ClassRoom" asp-asp-area="Admin">
+							<div class="row">
+								<input type="hidden" asp-for="ClassRoomId"> <!-- Name attribute added here -->
+
+								<div class="col-lg-6 col-md-6">
+									<div class="ui search focus mt-30 lbel25">
+										<label asp-for="ClassRoomName">ClassRoom Name*</label>
+										<div class="ui left icon input swdh19">
+											<input class="prompt srch_explore" type="text" placeholder="ClassRoom Name here" asp-for="ClassRoomName" maxlength="60">
+										</div>
+										<div class="help-block">(Please make this a maximum of 60 characters and unique.)</div>
+									</div>
+								</div>
+								<div class="col-lg-12 col-md-12">
+									<div class="cogs-toggle my-3">
+										<label class="switch">
+											<input type="checkbox" asp-for="Status" />
+											<span></span>
+										</label>
+										<label for="Status" class="lbl-quiz">Status</label>
+									</div>
+
+									<div class="step-footer step-tab-pager ">
+										<input type="submit" value="Submit" class="btn btn-outline-success" />
+										<input type="reset" value="Cancel" onclick="hideCard()" class="btn btn-danger" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-lg-12">
+			<div class="table-responsive mt-30">
+				<table class="table ucp-table">
+					<thead class="thead-s">
+						<tr>
+							<th class="text-center" scope="col">#</th>
+							<th class="cell-ta" scope="col">ClassRoom Name</th>
+							<th class="text-center" scope="col">Status</th>
+							<th class="text-center" scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var item in ViewBag.ClassRoomes)
+						{
+							<tr>
+								<td class="text-center">@serialNumber</td>
+								<td class="cell-ta">@item.ClassRoomName</td>
+								<td class="text-center">
+									<i class="badge bg-@(item.StatusLabel=="Active" ? "success" : "danger")">@item.StatusLabel</i>
+								</td>
+								<td class="text-center">
+									<button type="button" class="btn btn-primary btn-edit"
+											data-ClassRoom_id="@item.ClassRoomId"
+											data-ClassRoom_name="@item.ClassRoomName"
+											data-status="@item.StatusLabel">
+										<i class="uil uil-edit-alt"></i>
+									</button>
+
+
+									<button type="button" class="btn btn-primary btn-delete"
+											data-bs-toggle="modal"
+											data-ClassRoom_id="@item.ClassRoomId"
+											data-ClassRoom_name="@item.ClassRoomName"
+											data-bs-target="#delete_confirm_model">
+										<i class="uil uil-trash-alt"></i>
+									</button>
+
+
+								</td>
+							</tr>
+							serialNumber++;
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="delete_confirm_model" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete_confirm_model_Label" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content ">
+			<div class="modal-body text-center">
+				<form method="post" id="formDelete" asp-area="Admin" asp-controller="ClassRoom" asp-action="Delete">
+					<h2><i class="trash icon"></i>Are you sure want to delete ?</h2>
+					<blockquote class="my-3 py-4 px-3">
+						<p><strong id="ClassRoom_name"></strong></p>
+					</blockquote>
+
+					<button type="button" class="main-btn cancel" data-bs-dismiss="modal">No</button>
+					<input type="hidden" name="ClassRoomId" id="ClassRoom_id" value="" placeholder="ID" />
+					<input type="button" value="Yes" class="main-btn" id="btnFormDelete" />
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- Delete item Model End -->
+@section Scripts {
+
+	<script>
+
+		$('#delete_confirm_model').on('shown.bs.modal', function () {
+			$('#btnFormDelete').click(() => {
+				$('#formDelete').off('submit').submit();
+
+			});
+		});
+
+		const showCard = () => {
+			$("#btn-add-classroom-card").slideUp();
+			$("#card-ClassRoom-create").slideDown();
+		}
+
+
+		const hideCard = () => {
+			$("#btn-add-classroom-card").slideDown();
+			$("#card-ClassRoom-create").slideUp();
+		}
+
+		$(document).ready(function () {
+
+
+			const ToPascal = (str) => {
+				const pascalCase = str
+					.split('_')
+					.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+					.join('');
+				return pascalCase;
+			}
+
+
+			$("#btn-add-classroom-card").click(() => {
+				showCard();
+			});
+
+			$('.btn-delete').click((event) => {
+				const ClassRoom_id = $(event.currentTarget).data('ClassRoom_id');
+				const ClassRoom_name = $(event.currentTarget).data('ClassRoom_name');
+				$('#ClassRoom_id').val(ClassRoom_id);
+				$('#ClassRoom_name').text(ClassRoom_name);
+			})
+
+			$('.btn-edit').click(function () {
+
+				$('#myForm').attr('action', '/admin/ClassRoom/update');
+				// Access all data attributes
+				let dataAttributes = $(this).data();
+
+				// Optionally, you can loop through and access individual attributes
+				$.each(dataAttributes, function (key, value) {
+
+					if (key == "status") {
+						if (value.trim() == "Active") {
+							$('#Status').prop('checked', true);  // Correct way to set checked state
+						} else {
+							$('#Status').prop('checked', false);
+						}
+					} else {
+						$('#' + ToPascal(key)).val(value)
+					}
+				});
+				showCard();
+				$('html, body').animate({ scrollTop: 0 }, 800); // Scroll to top over 800ms
+			});
+
+		});
+
+	</script>
+}
