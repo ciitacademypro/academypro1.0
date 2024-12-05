@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Areas.Identity.Data;
+using MVC.Models;
 
 namespace lms.Areas.Course.Controllers
 {
@@ -15,17 +16,36 @@ namespace lms.Areas.Course.Controllers
 		ICourseCategoryService _courseCategoryService;
 		ICourseService _courseService;
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IHttpContextAccessor _contextAccessor;
 
-		public CourseController(UserManager<AppUser> userManager)
+		private int currentUserId;
+		private int firmId;
+		private int branchId;
+		private string firmShortName;
+
+
+		public CourseController(
+			UserManager<AppUser> userManager,
+			IHttpContextAccessor contextAccessor
+			)
 		{
 			_courseCategoryService = new CourseCategoryService();
 			_courseService = new CourseService();
 			_userManager = userManager;
+			_contextAccessor = contextAccessor;
+
+			var currentUser = _contextAccessor.HttpContext.Items["CurrentUser"] as CurrentUser;
+
+			firmId = currentUser?.FirmId ?? 0;
+			branchId = currentUser?.BranchId ?? 0;
+			firmShortName = currentUser?.FirmShortName ?? "NA";
+			string? currentUserId = currentUser?.Id;
+
 		}
 
 		public IActionResult Index()
 		{
-			var courses =  _courseService.GetAll(); // CourseId, CategoryId
+			var courses =  _courseService.GetAll(firmId); // CourseId, CategoryId
 			return View(courses); // Pass the resolved list to the view
 		}
 
@@ -67,7 +87,7 @@ namespace lms.Areas.Course.Controllers
 		{
 			ViewBag.CourseCategories = _courseCategoryService.GetAll();
 			ViewBag.id = id;
-			CourseModel course = _courseService.GetById(id);
+			CourseModel course = _courseService.GetById(id, firmId);
 			return View(course);
 		}
 
@@ -84,7 +104,7 @@ namespace lms.Areas.Course.Controllers
 
 		public IActionResult GetIdNameList(int id)
 		{
-			var courses =  _courseService.GetAll(0, id); // CourseId, CategoryId
+			var courses =  _courseService.GetAll(firmId, 0, id); // CourseId, CategoryId
 			if (courses == null || !courses.Any())
 			{
 				return Json(new object[] { }); // Return an empty JSON array
@@ -125,7 +145,7 @@ namespace lms.Areas.Course.Controllers
 
 		public IActionResult CreateModule()
 		{
-			ViewBag.courses =  _courseService.GetAll(); // CourseId, CategoryId
+			ViewBag.courses =  _courseService.GetAll(firmId); // CourseId, CategoryId
 
 			ViewBag.CourseCategories =  _courseCategoryService.GetAll();
 

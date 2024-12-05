@@ -30,7 +30,18 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
 		builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
 
-	
+
+		builder.Entity<IdentityUserRole<string>>(userRole =>
+		{
+			userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+			// Map AppUser -> IdentityUserRole
+			userRole.HasOne<AppUser>()
+				.WithMany(u => u.UserRoles)
+				.HasForeignKey(ur => ur.UserId)
+				.IsRequired();
+		});
+
 		// for ignoring migration building
 
 		//builder.Ignore<Branch>();

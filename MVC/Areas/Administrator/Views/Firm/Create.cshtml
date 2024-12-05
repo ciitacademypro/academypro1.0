@@ -1,75 +1,93 @@
 ﻿@model Firm
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Firm";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<div class="container">
+    <div class="row">
 
-<h1>Create</h1>
-<a asp-action="Index" class="float-end">Back to List</a>
-
-<h4>Firm</h4>
-<hr />
-
-
-<form asp-action="Create" asp-controller="Firm" asp-area="Administrator">
-        @* <div class="row"> *@
-        @*     <div asp-validation-summary="All" class="text-danger"></div> *@
-        @* </div> *@
-
-        <div class="row">
-        @ViewData["LayoutMessage"]
-
+        <div class="col-lg-12">
+            <a class="btn btn-default btn-success" style="float:right; position:relative;" asp-action="Index"> Firm List</a>
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Create Firm</h2>
+            @await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
         </div>
+    </div>
 
+    <div class="row">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+
+    <form asp-action="Create" asp-controller="Firm" asp-area="Administrator">
         <div class="row">
-            <div class="mb-3 col-md-4">
-                <div class="form-group">
-                    <label asp-for="FirmShortName" class="control-label"></label>
-                    <input asp-for="FirmShortName" class="form-control" />
-                    <span asp-validation-for="FirmShortName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="mb-3 col-md-4">
-                <div class="form-group">
-                    <label asp-for="FirmName" class="control-label"></label>
-                    <input asp-for="FirmName" class="form-control" />
-                    <span asp-validation-for="FirmName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="mb-3 col-md-4">
-                <div class="form-group">
-                    <label asp-for="FirmEmail" class="control-label"></label>
-                    <input asp-for="FirmEmail" class="form-control" />
-                    <span asp-validation-for="FirmEmail" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="mb-3 col-md-4">
-                <div class="form-group">
-                    <label asp-for="FirmContact" class="control-label"></label>
-                    <input asp-for="FirmContact" class="form-control" />
-                    <span asp-validation-for="FirmContact" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="mb-3 col-md-4">
-                <div class="form-group">
-                    <label asp-for="Status" class="control-label"></label>
-                <select class="dropdown form-control" asp-for="Status">
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="suspended">Suspended</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="mb-3 col-md-12">
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="col-lg-4">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="ui search focus mt-30 lbel25">
+                            <label asp-for="FirmShortName">Firm Short Name*</label>
+                            <div class="ui left icon input swdh19">
+                                <input class="prompt srch_explore" type="text" asp-for="FirmShortName" placeholder="Firm Short Name" maxlength="20" >
+							</div>
+                            <div class="help-block text-danger" asp-validation-for="FirmShortName"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="ui search focus mt-30 lbel25">
+                            <label asp-for="FirmName">Firm Name*</label>
+                            <div class="ui left icon input swdh19">
+                                <input class="prompt srch_explore" type="text" asp-for="FirmName" placeholder="Firm Name"  maxlength="60">
+                            </div>
+                             <div class="help-block text-danger" asp-validation-for="FirmName"></div> 
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="ui search focus mt-30 lbel25">
+                            <label asp-for="FirmEmail">Firm Email*</label>
+                            <div class="ui left icon input swdh19">
+                                <input class="prompt srch_explore" type="text" asp-for="FirmEmail" placeholder="Firm Email" maxlength="60">
+                            </div>
+                            <div class="help-block text-danger" asp-validation-for="FirmEmail"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="ui search focus mt-30 lbel25">
+                            <label asp-for="FirmContact">Firm Contact*</label>
+                            <div class="ui left icon input swdh19">
+                                <input class="prompt srch_explore" type="text" asp-for="FirmContact" placeholder="Firm Contact" maxlength="10">
+                            </div>
+                            <div class="help-block text-danger" asp-validation-for="FirmContact"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="ui search focus mt-30 lbel25">
+                            <label asp-for="Status" class="control-label"></label>
+                            <select class="dropdown form-control" asp-for="Status">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-4 col-md-12">
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-      </form>
+    </form>
+</div>
+
 
 <div>
 </div>

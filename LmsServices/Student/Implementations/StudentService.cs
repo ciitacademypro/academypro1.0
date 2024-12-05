@@ -32,10 +32,10 @@ namespace LmsServices.Student.Implementations
 				new("@Type", "INSERT"),
                 new("@StudentId", 0),
                 new("@Password",password),
-                new("@StudentName",student.StudentName),
+                new("@StudentName",student.Name),
                 new("@StudentCode",StudentCode),
-                new("@MobileNumber",student.MobileNumber),
-                new("@EmailAddress",student.EmailAddress),
+                new("@MobileNumber",student.PhoneNumber),
+                new("@EmailAddress",student.Email),
                 new("@ProfilePhoto",@"uploads\students\defaultAvatar.png"),
                 //new("@ProfilePhoto",student.ProfilePhoto),
                 new("@Status",false)                
@@ -66,7 +66,7 @@ namespace LmsServices.Student.Implementations
         }
 
 
-        public List<StudentModel> GetAll(bool? status = null)
+        public List<StudentModel> GetAll(int firmId, bool? status = null)
         {
             return QueryService.Query(
          "sp_GetAll_Students",
@@ -84,13 +84,14 @@ namespace LmsServices.Student.Implementations
                  StatusLabel = reader["StatusLabel"].ToString()
              };
          },
+            new SqlParameter("@FirmId", firmId),
             new SqlParameter("@StudentId", 0),
-            new SqlParameter("@Status", status)
+			new SqlParameter("@Status", status)
          );
 
         }
 
-        public StudentModel GetById(int id)
+        public StudentModel GetById(int id, int firmId)
         {
             var result = QueryService.Query(
             "sp_GetAll_Students",
@@ -109,7 +110,8 @@ namespace LmsServices.Student.Implementations
 
                 };
             },
-            new SqlParameter("@StudentId", id)
+			new SqlParameter("@FirmId", firmId),
+			new SqlParameter("@StudentId", id)
         );
 
             return result?.FirstOrDefault();
@@ -134,24 +136,15 @@ namespace LmsServices.Student.Implementations
             return QueryService.NonQuery("[sp_CreateUpdateDeleteRestore_Students]", parameters);
         }
 
-        public int ToggleStatus(int id, bool status = false)
+        public int ToggleStatus(string id, bool status = false)
         {
             var parameters = new List<KeyValuePair<string, object>>
                     {
-                        new("@Type", "STATUS"),         
                         new("@StudentId", id),            
-                        new("@StudentName", ""), 
-                        new("@StudentCode", ""),
-                        new("@MobileNumber", ""),
-                        new("@EmailAddress", ""),
-                        new("@Password", ""),
-                        new("@ProfilePhoto", ""),
-                        new("@Status", status),
-                        new("@LastInsertedId", 0) // Output parameter should be initialized with a value (commonly 0)
-
+                        new("@Status", status)
                     };
 
-            return QueryService.NonQuery("[sp_CreateUpdateDeleteRestore_Students]", parameters);
+            return QueryService.NonQuery("[sp_ToggleStatus_Students]", parameters);
 
         }
 

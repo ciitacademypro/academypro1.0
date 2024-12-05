@@ -10,13 +10,13 @@ namespace LmsServices.Course.Interfaces
 	public interface ICourseModuleService
 	{
 		public void Create(CourseModuleModel courseModule);
-		public List<CourseModuleModel> GetAll(int CourseModuleId = 0, short CourseId = 0);
+		public List<CourseModuleModel> GetAll(int firmId, int CourseModuleId = 0, short CourseId = 0);
 
 		public void Update(CourseModuleModel courseModule);
 		public void Delete(int id);
 		public void Restore(int id);
 		public void ToggleStatus(int id);
-		public CourseModuleModel GetById(int id);
+		public CourseModuleModel GetById(int id, int firmId);
 
 	}
 }

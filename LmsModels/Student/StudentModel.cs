@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LmsModels.Administrator;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LmsModels.Student
@@ -32,11 +34,28 @@ namespace LmsModels.Student
 
 	public class StudentAddModel
 	{
-        public string StudentName { get; set; }
-        public string MobileNumber { get; set; }
-        public string EmailAddress { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
 		public int EnquiryId { get; set; }
 		public int CourseId { get; set; }
+		public int BranchId { get; set; }
+		
+		[ValidateNever]
+		public string PasswordHash { get; set; }
+
+		[Required]
+		public string PhoneNumber { get; set; }
+
+		[ValidateNever]
+		[StringLength(60)]
+		public List<string> Roles { get; set; }
+
+
+		[ValidateNever]
+		// Navigation property for related Firm
+		[ForeignKey("FirmId")]
+		public virtual FirmModel Firm { get; set; }
+
 
 	}
 

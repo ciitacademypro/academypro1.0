@@ -101,7 +101,7 @@ namespace lms.Areas.Student.Controllers
 		public IActionResult Create()
 		{
 			ViewBag.LeadSources = _leadSourceService.GetAll();
-			ViewBag.Courses = _courseService.GetAll();
+			ViewBag.Courses = _courseService.GetAll(firmId);
 			ViewBag.Qualifications = _qualificationService.GetAll();
 
 			return View();
@@ -119,7 +119,7 @@ namespace lms.Areas.Student.Controllers
 		public IActionResult Edit(int id)
 		{
 			ViewBag.LeadSources = _leadSourceService.GetAll();
-			ViewBag.Courses = _courseService.GetAll();
+			ViewBag.Courses = _courseService.GetAll(firmId);
 			ViewBag.Qualifications = _qualificationService.GetAll();
 			var Leads = _leadService.GetById(id, firmId);
 

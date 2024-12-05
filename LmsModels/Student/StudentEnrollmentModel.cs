@@ -9,7 +9,8 @@ namespace LmsModels.Student
     public class StudentEnrollmentModel
     {
         public int StudentEnrollmentId { get; set; }
-		public int StudentId { get; set; }
+		public int FirmId { get; set; }
+		public string StudentId { get; set; }
 		public string? StudentName { get; set; }
 		public DateOnly EnrollmentDate { get; set; }
 		public int CourseId { get; set; }

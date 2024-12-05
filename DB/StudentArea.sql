@@ -560,3 +560,180 @@ CREATE TABLE Enrollments(
 	CONSTRAINT ENUM_Enrollments_PaymentStatus CHECK (PaymentStatus in ('Paid', 'Pending', 'Partially Paid','Overdue','Refunded','Cancelled'))
 );
 
+
+ALTER PROCEDURE sp_GetAll_Students
+(
+    @FirmId INT,
+    @StudentId NVARCHAR(MAX) = 0,  -- Optional parameter for filtering by StudentId
+	@Status BIT = NULL
+)
+AS
+BEGIN
+    IF (@StudentId <> 0)
+    BEGIN
+        SELECT 
+            s.Id,
+            s.Name,
+            s.Uid1,
+            s.PhoneNumber,
+            s.Email,
+            s.PasswordHash,
+            s.Status,
+            CASE 
+                WHEN s.Status = 1 THEN 'Active' 
+                WHEN s.Status = 0 THEN 'Inactive' 
+                ELSE 'Unknown'
+            END AS StatusLabel,  -- Custom StatusLabel column
+            s.DeletedAt
+        FROM 
+            AspNetUsers s
+			JOIN AspNetUserRoles ur ON ur.UserId = s.Id
+			JOIN AspNetRoles r ON r.Id = ur.RoleId
+        WHERE 
+            s.DeletedAt IS NULL 
+            AND s.Id = @StudentId  -- Fetch a specific student
+            AND s.FirmId = @FirmId 
+			AND (@Status IS NULL OR s.Status = @Status)
+			AND r.Name = 'Student'
+
+        ORDER BY 
+            s.Name ASC;
+    END
+    ELSE
+    BEGIN
+        SELECT 
+            s.Id,
+			r.Name RoleName,
+            s.Name,
+            s.Uid1,
+            s.PhoneNumber,
+            s.Email,
+            s.PasswordHash,
+            s.Status,
+            CASE 
+                WHEN s.Status = 1 THEN 'Active' 
+                WHEN s.Status = 0 THEN 'Inactive' 
+                ELSE 'Unknown'
+            END AS StatusLabel,  -- Custom StatusLabel column
+            s.DeletedAt
+        FROM 
+            AspNetUsers s
+			JOIN AspNetUserRoles ur ON ur.UserId = s.Id
+			JOIN AspNetRoles r ON r.Id = ur.RoleId
+        WHERE 
+            s.DeletedAt IS NULL  -- Fetch only non-deleted records
+            AND s.FirmId = @FirmId 
+			AND (@Status IS NULL OR s.Status = @Status)
+			AND r.Name = 'Student'
+
+        ORDER BY 
+            s.Name ASC;
+    END
+END;
+
+
+CREATE PROCEDURE sp_GetAll_Enrollments
+(
+    @FirmId INT,
+	@StudentEnrollmentId int = 0,
+	@Status BIT = NULL
+)
+
+AS
+BEGIN
+    if(@StudentEnrollmentId<>0)
+	BEGIN
+		SELECT 
+			e.StudentEnrollmentId,
+			e.StudentId,
+			s.Name StudentName,
+			s.PhoneNumber MobileNumber,
+			s.Email EmailAddress,
+			e.EnrollmentDate,
+			e.CourseId,
+			c.CourseName,
+			e.EnrollmentType,
+			e.PaymentStatus,
+			e.CourseFeeId,
+			e.DiscountCode,
+			e.DiscountAmount,
+			e.PaidAmount,
+			e.StartDate,
+			e.DroppedDate,
+			e.Remarks,
+			e.Status,
+            CASE 
+                WHEN e.Status = 1 THEN 'Active' 
+                WHEN e.Status = 0 THEN 'Inactive' 
+                ELSE 'Unknown'
+            END AS StatusLabel  -- Custom StatusLabel column
+
+		FROM 
+			Enrollments e
+			JOIN AspNetUsers s ON s.Id = e.StudentId
+			JOIN Courses c ON c.CourseId= e.CourseId
+		WHERE 
+			e.DeletedAt IS NULL
+			AND s.DeletedAt IS NULL
+			AND c.DeletedAt IS NULL
+			AND e.StudentEnrollmentId=@StudentEnrollmentId
+			AND (@Status IS NULL OR e.Status = @Status) -- Condition to handle @Status
+			AND e.FirmId = @FirmId
+		END
+	ELSE
+		BEGIN
+		SELECT 
+			e.StudentEnrollmentId,
+			e.StudentId,
+			s.Name StudentName,
+			s.PhoneNumber MobileNumber,
+			s.Email EmailAddress,
+			e.EnrollmentDate,
+			e.CourseId,
+			c.CourseName,
+			e.EnrollmentType,
+			e.PaymentStatus,
+			e.CourseFeeId,
+			e.DiscountCode,
+			e.DiscountAmount,
+			e.PaidAmount,
+			e.StartDate,
+			e.DroppedDate,
+			e.Remarks,
+			e.Status,
+            CASE 
+                WHEN e.Status = 1 THEN 'Active' 
+                WHEN e.Status = 0 THEN 'Inactive' 
+                ELSE 'Unknown'
+            END AS StatusLabel  -- Custom StatusLabel column
+
+
+		FROM 
+			Enrollments e
+			JOIN AspNetUsers s ON s.Id = e.StudentId
+			JOIN Courses c ON c.CourseId= e.CourseId
+		WHERE 
+			e.DeletedAt IS NULL
+			AND s.DeletedAt IS NULL
+			AND c.DeletedAt IS NULL	 
+			AND (@Status IS NULL OR e.Status = @Status) -- Condition to handle @Status
+			AND e.FirmId = @FirmId
+		END
+END;
+
+
+CREATE PROCEDURE sp_ToggleStatus_Students
+(
+	@StudentId NVARCHAR(MAX),
+	@status BIT
+)
+AS
+BEGIN
+	UPDATE AspNetUsers SET Status = @Status WHERE Id = @StudentId
+END;
+
+select * from AspNetUsers
+
+select * from Enrollments;
+
+;

@@ -71,15 +71,16 @@ namespace lms.Areas.Batch.Controllers
 				.Where(r => r.Name.Contains("Trainer"))
 				.Select(r => r.Id)
 				.ToListAsync();
-
+	
 			var trainers = await _appDbContext.Users
-				.Where(u => _appDbContext.UserRoles
+				.Where(u => u.FirmId == firmId)
+				.Where( u => _appDbContext.UserRoles
 					.Any(ur => ur.UserId == u.Id && trainersRoleId.Contains(ur.RoleId)))
 				.ToListAsync();
 
 			ViewBag.Trainers = trainers;
 
-			ViewBag.CourseModules = _courseModuleService.GetAll(0,0);
+			ViewBag.CourseModules = _courseModuleService.GetAll(firmId, 0,0);
             ViewBag.CourseCategories = _courseCategoryService.GetAll();
 			ViewBag.ClassRooms = _classRoomService.GetAll(firmId); // ClassRoomId, ClassRoomName
 

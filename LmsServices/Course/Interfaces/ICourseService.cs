@@ -15,11 +15,11 @@ namespace LmsServices.Course.Interfaces
 		public void Delete(int id);
 		public void Restore(int id);
 		public void ToggleStatus(int id);
-		public CourseModel GetById(int id);
+		public CourseModel GetById(int id, int firmId);
 
 		public List<CourseFeeModel> GetCourseFees(int courseId);
 		public CourseFeeModel GetFeesById(int CourseFeeId);
 
-		public List<CourseModel> GetAll(int courseId = 0, int categoryId = 0);
+		public List<CourseModel> GetAll(int firmId, int courseId = 0, int categoryId = 0);
 	}
 }

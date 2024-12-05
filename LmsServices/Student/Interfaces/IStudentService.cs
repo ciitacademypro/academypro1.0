@@ -9,10 +9,10 @@ namespace LmsServices.Student.Interfaces
         public int Update(StudentModel student);
         public int Delete(int id);
         public int Restore(int id);
-        public int ToggleStatus(int id, bool  status = false);
-        public StudentModel GetById(int id);
+        public int ToggleStatus(string id, bool  status = false);
+        public StudentModel GetById(int id, int firmId);
 
-        public List<StudentModel> GetAll(bool? status = null);
+        public List<StudentModel> GetAll(int firmId, bool? status = null);
 		public bool ChangePassword(int studentId, string newPassword);
 		public void UpdateProfilePhoto(int studentId, string profilePhoto);
 

@@ -289,6 +289,7 @@ END;
 
 CREATE PROCEDURE sp_GetAll_Course
 (
+	@FirmId INT,
 	@CourseId INT = 0,
 	@CourseCategoryId INT = 0
 )
@@ -317,6 +318,7 @@ AS
 					c.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
 					AND c.CourseId = @CourseId
+					AND c.FirmId = @FirmId
 				ORDER BY c.CourseOrder ASC
 			END
 		ELSE IF (@CourseCategoryId <> 0)
@@ -342,6 +344,7 @@ AS
 					c.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
 					AND c.CourseCategoryId = @CourseCategoryId
+					AND c.FirmId = @FirmId
 				ORDER BY c.CourseOrder ASC
 
 			END
@@ -367,6 +370,7 @@ AS
 				WHERE 
 					c.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
+					AND c.FirmId = @FirmId
 				ORDER BY c.CourseOrder ASC
 
 			END
@@ -447,6 +451,7 @@ END;
 
 CREATE PROCEDURE sp_GetAll_CourseModules
 (
+	@FirmId INT,
 	@CourseModuleId INT = 0,
 	@CourseId INT = 0
 )
@@ -478,6 +483,7 @@ AS
 					AND cm.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
 					AND cm.CourseModuleId = @CourseModuleId
+					AND c.FirmId = @FirmId
 				ORDER BY cm.ModuleOrder ASC
 			END
 		ELSE IF (@CourseId <> 0)
@@ -505,6 +511,7 @@ AS
 					AND cm.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
 					AND c.CourseId = @CourseId
+					AND c.FirmId = @FirmId
 				ORDER BY cm.ModuleOrder ASC
 			END
 		ELSE
@@ -531,6 +538,7 @@ AS
 					c.DeletedAt IS NULL 
 					AND cm.DeletedAt IS NULL 
 					AND cc.DeletedAt IS NULL 
+					AND c.FirmId = @FirmId
 				ORDER BY cm.ModuleOrder ASC
 
 			END

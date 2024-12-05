@@ -99,7 +99,7 @@ namespace LmsServices.Course.Implementations
 
 		}
 
-		public List<CourseModel> GetAll(int courseId = 0, int categoryId = 0)
+		public List<CourseModel> GetAll(int firmId, int courseId = 0, int categoryId = 0)
 		{
 			return QueryService.Query(
 				"sp_GetAll_Course",
@@ -118,13 +118,15 @@ namespace LmsServices.Course.Implementations
 						CourseOrder = Convert.ToInt16(reader["CourseId"]),
 					};
 				},
+				
+				new SqlParameter("@FirmId", firmId),
 				new SqlParameter("@CourseId", courseId),
 				new SqlParameter("@CourseCategoryId", categoryId)
 			);
 		}
 
 
-		public CourseModel GetById(int id)
+		public CourseModel GetById(int id, int firmId)
 		{
 			var result =  QueryService.Query(
 				"sp_GetAll_Course",
@@ -143,6 +145,7 @@ namespace LmsServices.Course.Implementations
 						CourseOrder = Convert.ToInt16(reader["CourseId"]),
 					};
 				},
+				new SqlParameter("@FirmId", firmId),
 				new SqlParameter("@CourseId", id),
 				new SqlParameter("@CourseCategoryId", 0)
 			);

@@ -1,4 +1,5 @@
 ﻿using LmsModels.Administrator;
+using LmsServices.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,6 @@ namespace MVC.Areas.Administrator.Controllers
 		public async Task<IActionResult> Index()
 		{
 
-
-
 			var users = _userManager.Users
 				.Include(user => user.Firm) // Eagerly load the Firm navigation property
 				.ToList() // Materialize the query
@@ -47,7 +46,7 @@ namespace MVC.Areas.Administrator.Controllers
 			foreach (var user in users)
 			{
 				var roles = await _userManager.GetRolesAsync(new AppUser { Id = user.Id });
-				if(roles.Contains("SuperAdmin"))
+				if(roles.Contains("SuperAdmin") || roles.Contains("Admin"))
 				userRoles.Add(new UserWithRolesViewModel
 				{
 					Id = user.Id,

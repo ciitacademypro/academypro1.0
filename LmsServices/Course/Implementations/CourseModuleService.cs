@@ -47,7 +47,7 @@ namespace LmsServices.Course.Implementations
 			QueryService.NonQuery("[sp_CreateUpdateDeleteRestore_CourseModules]", parameters);
 		}
 
-		public List<CourseModuleModel> GetAll(int CourseModuleId = 0, short CourseId = 0)
+		public List<CourseModuleModel> GetAll(int firmId, int CourseModuleId = 0, short CourseId = 0)
 		{
 
 			return QueryService.Query(
@@ -68,12 +68,13 @@ namespace LmsServices.Course.Implementations
 						StatusLabel = reader["StatusLabel"].ToString(),
 					};
 				},
+				new SqlParameter("@FirmId", firmId),
 				new SqlParameter("@CourseModuleId", CourseModuleId),
 				new SqlParameter("@CourseId", CourseId)
 		);
 		}
 
-		public CourseModuleModel GetById(int id)
+		public CourseModuleModel GetById(int id, int firmId)
 		{
 			var result = QueryService.Query(
 				"sp_GetAll_CourseModules",
@@ -93,6 +94,7 @@ namespace LmsServices.Course.Implementations
 						StatusLabel = reader["StatusLabel"].ToString(),
 					};
 				},
+				new SqlParameter("@FirmId", firmId),
 				new SqlParameter("@CourseModuleId", id),
 				new SqlParameter("@CourseId", 0)  
 			);
