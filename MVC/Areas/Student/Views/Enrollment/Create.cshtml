@@ -1,0 +1,195 @@
+﻿@model StudentEnrollmentModel
+@{
+    ViewData["Title"] = "Create Enrollment";
+}
+<h1><b><i>Student Enrollment Form</i></b></></h1>
+
+<form method="post" asp-action="Create" asp-controller="Enrollment" asp-area="Student">
+
+    <input asp-for="CourseFeeId" type="hidden" value="0" />
+    <input asp-for="DroppedDate" type="hidden" value="0" />
+
+    <!-- Part 1: Student Information -->
+    <fieldset>
+        <legend>Student Information</legend>
+        @*  <div class="form-group row">
+        <label asp-for="EnrollmentId" class="col-md-3 col-form-label">Enrollment ID</label>
+        <div class="col-md-9">
+        <input asp-for="EnrollmentId" class="form-control" />
+        <span asp-validation-for="EnrollmentId" class="text-danger"></span>
+        </div>
+        </div> *@
+
+
+        <div class="form-group row">
+            <label asp-for="StudentId" class="col-md-3 col-form-label">Student Name</label>
+            <div class="col-md-9">
+                <select asp-for="StudentId" class="form-control">
+                    <option value="">Select Name</option>
+                    <option value="1">Sandesh Acharya</option>
+                    <option value="2">Pratik Borate</option>
+                    <option value="3">Amar Chavan</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="EnrollmentDate" class="col-md-3 col-form-label">Enrollment Date</label>
+            <div class="col-md-9">
+                <input asp-for="EnrollmentDate" type="date" class="form-control" />
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="CourseId" class="col-md-3 col-form-label">Course Name</label>
+            <div class="col-md-9">
+                <select asp-for="CourseId" class="form-control">
+                    <option value="">Select Course</option>
+                    <option value="1">Python</option>
+                    <option value="2">.Net Full Stack</option>
+                    <option value="3">Java</option>
+                    <option value="4">Data Science</option>
+                    <option value="5">Angular</option>
+                    <option value="6">Node JS</option>
+                    <option value="7">Cyber Security</option>
+                    <option value="8">Web Development</option>
+                    <option value="9">DevOps</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="EnrollmentType" class="col-md-3 col-form-label">Enrollment Type</label>
+            <div class="col-md-9">
+                <input asp-for="EnrollmentType" class="form-control" />
+
+            </div>
+        </div>
+
+
+    </fieldset>
+
+    <!-- Part 2: Payment Information -->
+    <fieldset>
+        <legend>Payment Information</legend>
+        @*  <div class="form-group row">
+        <label asp-for="PaymentStatus" class="col-md-3 col-form-label">Payment Status</label>
+        <div class="col-md-9">
+        <select asp-for="PaymentStatus" class="form-control">
+        <option value="">Select Status</option>
+        <option value="Paid">Paid</option>
+        <option value="Pending">Pending</option>
+        <option value="Unpaid">Unpaid</option>
+        </select>
+        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+        </div>
+        </div> *@
+
+        @*    <div class="form-group row">
+        <label asp-for="CourseFeeId" class="col-md-3 col-form-label">Fee ID</label>
+        <div class="col-md-9">
+        <input asp-for="CourseFeeId" class="form-control" />
+        <span asp-validation-for="CourseFeeId" class="text-danger"></span>
+        </div>
+        </div> *@
+
+        <div class="form-group row">
+            <label asp-for="DiscountCode" class="col-md-3 col-form-label">Discount Code</label>
+            <div class="col-md-9">
+                <input asp-for="DiscountCode" class="form-control" />
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="DiscountAmount" class="col-md-3 col-form-label">Discount Amount</label>
+            <div class="col-md-9">
+                <input asp-for="DiscountAmount" type="number" class="form-control" />
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="PaidAmount" class="col-md-3 col-form-label">Paid Amount</label>
+            <div class="col-md-9">
+                <input asp-for="PaidAmount" type="number" class="form-control" />
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="PaymentStatus" class="col-md-3 col-form-label"> Payment Status</label>
+            <div class="col-md-9">
+                <select asp-for="PaymentStatus" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                    <option value="Partially Paid">Partially Paid</option>>
+                </select>
+                <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+            </div>
+        </div>
+
+    </fieldset>
+
+    <!-- Part 3: Enrollment Status -->
+    <fieldset>
+        <legend>Enrollment Status</legend>
+        <div class="form-group row">
+            <label asp-for="Status" class="col-md-3 col-form-label">Status</label>
+            <div class="col-md-9">
+                <select asp-for="Status" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Dropped">InActive</option>
+                    <option value="Dropped">Dropped</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="StartDate" class="col-md-3 col-form-label">Start Date</label>
+            <div class="col-md-9">
+                <input asp-for="StartDate" type="date" class="form-control" />
+
+            </div>
+        </div>
+
+        @*  <div class="form-group row">
+        <label asp-for="DroppedDate" class="col-md-3 col-form-label">Dropped Date</label>
+        <div class="col-md-9">
+        <input asp-for="DroppedDate" type="date" class="form-control" />
+        <span asp-validation-for="DroppedDate" class="text-danger"></span>
+        </div>
+        </div> *@
+    </fieldset>
+
+    <!-- Part 4: Additional Information -->
+    <fieldset>
+        <legend>Additional Information</legend>
+        <div class="form-group row">
+            <label asp-for="Remarks" class="col-md-3 col-form-label">Remark</label>
+            <div class="col-md-9">
+                <textarea asp-for="Remarks" class="form-control"></textarea>
+
+            </div>
+        </div>
+
+        @*  <div class="form-group row">
+        <label asp-for="DeletedAt" class="col-md-3 col-form-label">Deleted At</label>
+        <div class="col-md-9">
+        <input asp-for="DeletedAt" type="date" class="form-control" />
+        <span asp-validation-for="DeletedAt" class="text-danger"></span>
+        </div>
+        </div> *@
+    </fieldset>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Submit</button>
+    @Html.ActionLink("View Record", "Index")
+</form>
+<h2>@ViewBag.msg</h2>

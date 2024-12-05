@@ -1,0 +1,590 @@
+﻿@using LmsModels.Student
+@model IEnumerable<StudentModel>
+
+@{
+	ViewData["Title"] = "Student Dashboard";
+	ViewData["AreaName"] = "Student";
+	ViewData["ControllerName"] = "Student";
+}
+
+<div class="container">
+	@if (TempData["success"] != null)
+	{
+		<div class="alert alert-success">
+			<p>@TempData["success"]</p>
+		</div>
+	}
+
+</div>
+
+<div class="sa4d25">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="st_title"><i class="uil uil-apps"></i> Students Dashboard</h2>
+			</div>
+
+			<div class="col-xl-3 col-lg-6 col-md-6">
+				<div class="card_dash">
+					<div class="card_dash_left">
+						<h5>Total Students</h5>
+						<h2>@ViewBag.studentListAllCount</h2>
+						
+						<div class="ui horizontal list">
+							<div class="item"><a asp-action="index" asp-controller="student" asp-area="student" asp-route-status="1" ><span class=" crdbg_1 bg-success" data-tooltip="Active"
+										data-position="top left" data-inverted=""><b class="fas fa-user"></b>
+										@ViewBag.studentListActiveCount</span></a></div>
+							<div class="item"><a asp-action="index" asp-controller="student" asp-area="student" asp-route-status="0" ><span class=" crdbg_1 bg-danger" data-tooltip="Inactive"
+										data-position="top left" data-inverted=""><b class="fas fa-user"></b> @ViewBag.studentListInactiveCount
+									</span></a></div>
+						</div>
+					</div>
+					<div class="card_dash_right">
+						<img src="~/images/dashboard/knowledge.svg" alt="">
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-lg-6 col-md-6">
+				<div class="card_dash">
+					<div class="card_dash_left">
+						<h5>Total Enroll</h5>
+						<h2>@ViewBag.enrollmentAllCount</h2>
+						<div class="ui horizontal list">
+							<div class="item"><a asp-action="index" asp-controller="enrollment" asp-area="student" asp-route-status="1"><span class=" crdbg_2 " data-tooltip="Live"
+										data-position="top left" data-inverted=""><b class="fas fa-user"></b>
+										@ViewBag.enrollmentActiveCount</span></a></div>
+							<div class="item"><a asp-action="index" asp-controller="enrollment" asp-area="student" asp-route-status="1"><span class=" crdbg_1 bg-secondary"
+										data-tooltip="Course Completed" data-position="top left" data-inverted=""><b
+											class="fas fa-user"></b> @ViewBag.enrollmentInactiveCount </span></a></div>
+						</div>
+
+					</div>
+					<div class="card_dash_right">
+						<img src="~/images/dashboard/graduation-cap.svg" alt="">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-3 col-lg-6 col-md-6 d-none">
+				<div class="card_dash">
+					<div class="card_dash_left">
+						<h5>Total Placed</h5>
+						<h2>1350</h2>
+						<span class="crdbg_1">View More..</span>
+					</div>
+					<div class="card_dash_right">
+						<img src="~/images/dashboard/achievement.svg" alt="">
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-lg-6 col-md-6 d-none">
+				<div class="card_dash">
+					<div class="card_dash_left">
+						<h5>Total Live Courses</h5>
+						<h2>130</h2>
+						<span class="crdbg_3">View More..</span>
+					</div>
+					<div class="card_dash_right">
+						<img src="~/images/dashboard/online-course.svg" alt="">
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+			<div class="sa4d25 mt-4 pt-4">
+					<div class="row">
+						@* <div class="col-xl-9 col-lg-8"> *@
+						<div class="col-xl-12 col-lg-12">
+							<div class="section3125">
+								@* <h4 class="item_title">Enrollment Waiting List</h4> *@
+								<div class="la5lo1">
+									<div class="row">
+
+										@if (Model != null && Model.Any())
+										{
+											foreach (var student in Model)
+											{
+												<div class="col-lg-3 col-md-4 col-sm-12">
+
+
+													<div class="stream_1 mb-30" style="@(student.Status == true?"box-shadow:1px 1px 3px green;":"box-shadow:1px 1px 3px red;")">
+														<span class="stream_bg" >
+															<img src="@Url.Content("~/"+student.ProfilePhoto)" alt="Profile Phto">
+															<h4>@student.StudentName</h4>
+															<p>@student.MobileNumber</p>
+														</span>
+													<div class="row m-0 p-0">
+													@if(student.Status == true){
+														<div class="col-12 m-0 p-0">
+															<a  asp-action="Details" asp-controller="student" asp-area="student" asp-route-id="@student.StudentId"  class="btn btn-lg"
+																style="width:100% !important" >Profile</a>
+														</div>
+													}else{
+														<div class="col-4 m-0 p-0">
+															<a href="javascript:;" class="btn btn-lg btn-edit-student"
+																style="width:100% !important" 
+																data-student_id="@student.StudentId"
+																data-student_name="@student.StudentName"
+																data-mobile_number="@student.MobileNumber"
+																data-email_address="@student.EmailAddress"
+																data-bs-target="#student_edit_model"><i class="fas fa-edit"></i></a>
+														</div>
+														<div class="col-4 m-0 p-0">
+															<a href="javascript:;" class="btn btn-lg btn-add-enrollment"
+																style="width:100% !important" data-student_id="@student.StudentId"
+																data-student_name="@student.StudentName"
+																data-bs-target="#enrollment_add_model"><i class="fas fa-user-plus"></i></a>
+														</div>
+														<div class="col-4 m-0 p-0">
+															<a href="javascript:;" class="btn btn-lg btn-delete"
+																style="width:100% !important" data-delete_id="@student.StudentId"
+																data-delete_display="@student.StudentName"><i class="fas fa-trash"></i></a>
+														</div>
+													}														
+													</div>
+
+													</div>
+												</div>
+
+											}
+										}
+
+																			
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-4">
+							<div class="right_side d-none">
+								<div class="fcrse_3">
+									<div class="cater_ttle">
+										<h4>Live Streaming</h4>
+									</div>
+									<div class="live_text">
+										<div class="live_icon"><i class="uil uil-kayak"></i></div>
+										<div class="live-content">
+											<p>Set up your channel and stream live to your students</p>
+											<button class="live_link"
+												onclick="window.location.href = 'add_streaming.html';">Get
+												Started</button>
+											<span class="livinfo">Info : This feature only for 'Instructors'.</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+
+@section css {
+	<link href="~/css/style.css" rel="stylesheet">
+}
+
+@section model {
+	<!-- Modal -->
+
+	<div class="modal fade" id="enrollment_add_model" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#eeeeee">
+					<h3 class="modal-title">
+						<i class="uil uil-user-plus"></i> <span id="lblStudentName"></span>
+					</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+				</div>
+				<div class="modal-body p-3">
+
+					<div class="text-center card-student">
+						<form method="post" id="formStudent" asp-area="Student" asp-controller="Enrollment"
+							asp-action="Create">
+
+							<input type="hidden" name="StudentId" id="txtStudentId" />
+							<input type="hidden" name="CourseFeeId" id="txtCourseFeeId" />
+
+							<div class="row">
+								<div class="col-lg-6 col-md-12">
+									<div class="mt-30 lbel25">
+										<label>Select Course Category*</label>
+									</div>
+									<select class="form-control" id="drpCourseCategory">
+										<option value="">Select Course Category</option>
+										@foreach (var item in ViewBag.CourseCategories)
+										{
+											<option value="@item.CourseCategoryId">@item.CourseCategoryName</option>
+										}
+									</select>
+								</div>
+								<div class="col-lg-6 col-md-6">
+									<div class="mt-30 lbel25">
+										<label>Select Course*</label>
+									</div>
+
+									<select class="form-control" id="CourseId" name="CourseId" required>
+										<option value="">Select Course</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row d-none" id="tblFees">
+								<div class="col-lg-12 col-md-12 mt-4">
+									<table class="table ui celled table-hover">
+									</table>
+								</div>
+
+								<div class="col-lg-12 col-md-12 mt-4 enrollform" style="display:none;">
+									<div class="row">
+
+										<div class="col-lg-3 col-md-3">
+											<div class="mt-30 lbel25">
+												<label>Enrollment Type*</label>
+											</div>
+
+											<select class="ui dropdown" id="EnrollmentType" name="EnrollmentType" required>
+												<option value="Regular">Regular</option>
+												<option value="Trial">Trial</option>
+												<option value="Transfer">Transfer</option>
+												<option value="Special">Special</option>
+											</select>
+										</div>
+
+										<div class="col-lg-3 col-md-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Special Discount*</label>
+												<select class="ui dropdown" id="DiscountCode" name="DiscountCode" required>
+													<option value="0">NA</option>
+													<option value="3000">Discount Amount Rs. 3000</option>
+													<option value="5000">Discount Amount Rs. 5000</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-lg-3 col-md-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>DiscountAmount*</label>
+												<div class="ui left icon input swdh19">
+													<input type="hidden" id="baseAmount" />
+													<input class="prompt srch_explore" type="number" name="DiscountAmount"
+														id="txt_enrollment_discount_amount" placeholder="DiscountAmount"
+														readonly />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+
+										<div class="col-lg-3 col-md-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Payment Mode*</label>
+												<select class="ui dropdown" id="PaymentMode" name="PaymentStatus" required>
+													<option value="cash">Cash</option>
+													<option value="online">Online</option>
+												</select>
+
+											</div>
+										</div>
+
+										<div class="col-lg-3 col-md-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Initial Payment*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="number" name="PaidAmount"
+														id="txt_enrollment_PaidAmount" placeholder="Initial Payment" />
+												</div>
+											</div>
+										</div>
+
+
+										<div class="col-lg-3 col-md-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Transaction ID.*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="number" name="Remarks"
+														id="TransactionId" placeholder="Transaction ID" />
+												</div>
+											</div>
+										</div>
+
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-3 enrollform" style="display:none">
+								<div class="col-12 p-3">
+									<input type="submit" value="Confirm Enrollment" class="main-btn"
+										id="btnFormformStudent" />
+								</div>
+							</div>
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="student_edit_model" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#eeeeee">
+					<h3 class="modal-title">
+							<i class="uil uil-user"></i> Edit Student
+					</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+				</div>
+				<div class="modal-body p-3">
+
+					<div class="text-center card-student">
+						<form method="post" asp-area="Student" asp-controller="Student"
+							asp-action="edit">
+
+							<input type="hidden" name="StudentId" id="txtStudentId2" />
+
+							<div class="row ">
+								<div class="col-lg-12 col-md-12 " >
+									<div class="row">
+
+										<div class="col-lg-4 col-md-4">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Student Name*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="text" name="StudentName" id="txtStudentName2"
+														 placeholder="Student Name" required />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-4 col-md-4">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Mobile Number*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="text" name="MobileNumber" id="txtMobileNumber2"
+														placeholder="Mobile Number"  required />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-4 col-md-4">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Email Address*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="email" name="EmailAddress" id="txtEmailAddress2"
+														placeholder="Email Address" />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-12 p-3">
+											<input type="submit" value="Save Changes" class="main-btn" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+}
+
+
+@section Scripts {
+
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelPartial.cshtml")
+
+	<script>
+
+		$('.btn-edit-student').click(function () {
+			$('#student_edit_model').modal('show');
+
+			const id = $(this).data('student_id');
+			const name = $(this).data('student_name');
+			const mobileNumber = $(this).data('mobile_number');
+			const emailAddress = $(this).data('email_address');
+			$('#txtStudentId2').val(id);
+			$('#txtStudentName2').val(name);
+			$('#txtMobileNumber2').val(mobileNumber);
+			$('#txtEmailAddress2').val(emailAddress);
+
+		});
+
+
+
+		$('.btn-add-enrollment').click(function () {
+			$('#enrollment_add_model').modal('show');
+
+			const id = $(this).data('student_id');
+			const name = $(this).data('student_name');
+			$('#txtStudentId').val(id);
+			$('#lblStudentName').text(name);
+
+		});
+
+		$('#DiscountCode').change(() => {
+			let discountAmount = $('#DiscountCode').val()
+			let baseAmount = $('#baseAmount').val();
+
+			$('#txt_enrollment_discount_amount').val(parseInt(baseAmount) - parseInt(discountAmount));
+
+		})
+
+		$(document).ready(function () {
+
+			$('.ui.dropdown').dropdown();
+			// Confirmation dialog for delete action
+			$('.delete-student').click(function (event) {
+				event.preventDefault(); // Prevent the default link behavior
+				var deleteUrl = $(this).attr('href'); // Get the URL to delete
+
+				if (confirm("Are you sure you want to delete this record?")) {
+					// If user confirms, redirect to the delete URL
+					window.location.href = deleteUrl;
+				}
+			});
+
+
+			$('.btn-edit').click(function () {
+				$('#myForm').attr('action', '/admin/Student/Edit');
+
+				// Access all data attributes
+				let dataAttributes = $(this).data();
+
+				// Loop through and access individual attributes
+				$.each(dataAttributes, function (key, value) {
+					if (key == "status") {
+						$('#Status').prop('checked', value.trim() == "Active");
+					} else {
+						$('#' + ToPascal(key)).val(value);
+					}
+				});
+
+				showCard();
+				$('html, body').animate({ scrollTop: 0 }, 800); // Scroll to top over 800ms
+			});
+		});
+
+		$("#drpCourseCategory").change(() => {
+			let selectedVal = $("#drpCourseCategory").val();
+			if (!selectedVal) return;
+			$("#CourseId").html(`<option value="">Select Course</option>`)
+			$("#CourseId").val("").select();
+
+
+			let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/Course/Course/GetIdNameList/${selectedVal}`;
+			
+			$.get(url, (response) => {
+				const options = response.map(v => `<option value="${v.courseId}">${v.courseName}</option>`).join('');
+				$("#CourseId").append(options);
+			}).fail(console.log);
+		})
+
+		$("#CourseId").change(async () => {
+			let selectedVal = $("#CourseId").val();
+			if (!selectedVal) return;
+
+			let url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/Course/Course/GetCourseFees/${selectedVal}`;
+			await $.get(url, (response) => {
+				console.log(response);
+				let htmls = `
+								<thead>
+									<tr>
+										<th></th>
+										<th>Total Installments</th>
+										<th>Fees Amount </th>
+										<th>Gst Percentage</th>
+										<th>GST Amount </th>
+										<th>Total Amount</th>
+									<tr>
+								</thead>
+								<tbody>
+							`;
+
+				response.forEach((v, i) => {
+					console.log(v)
+					htmls += `
+										<tr class="selectable-row" data-radio-id="${v.courseFeeId}_selectedCourseFeeId">
+											<td>
+												<div class="ui radio checkbox">
+																	<input type="radio" name="selectedCourseFeeId" id="${v.courseFeeId}_selectedCourseFeeId" data-amount="${v.totalAmountWithGst}" value="${v.courseFeeId}">
+													<label for="${v.courseFeeId}_selectedCourseFeeId"></label>
+												</div>
+											</td>
+											<td>${v.totalInstallments}</td>
+											<td>${v.feeAmount}</td>
+											<td>${v.gstPercentage}</td>
+											<td>${v.gstAmount}</td>
+											<td>${v.totalAmountWithGst}</td>
+										<tr>
+								`;
+
+				})
+
+
+				$('#tblFees').removeClass('d-none');
+				$('#tblFees .table').html(htmls + '</tbody>');
+
+				// const options = response.map(v => `<option value="${v.courseId}">${v.courseName}</option>`).join('');
+				// $("#CourseId").append(options);
+			}).fail(console.log);
+		})
+
+		$(document).on('click', '.selectable-row', function () {
+			const radioId = $(this).data('radio-id');
+			const courseFeeId = $(`#${radioId}`).val();
+			const selectedAmount = $(`#${radioId}`).data('amount');
+			$(`#${radioId}`).prop('checked', true);
+
+
+
+			$('#txtCourseFeeId').val(courseFeeId);
+			$('#DiscountCode').val('0').change();
+
+
+			// $('#txt_enrollment_discount_amount').val(selectedVal);
+			$('#txt_enrollment_discount_amount').val(selectedAmount);
+			$('#baseAmount').val(selectedAmount);
+
+			$('.enrollform').show()
+
+			// Reset background color of all rows' last <td>
+			$('.selectable-row td:last-child').removeClass('bg-success text-white');
+
+			// Change the background color of the last <td> in the clicked row
+			$(this).find('td:last-child').addClass('bg-success text-white');
+
+
+			// Reset background color of all rows' last <td>
+			$('.selectable-row td').removeClass('bg-secondary text-white');
+
+			// Change the background color of the last <td> in the clicked row
+			$(this).find('td').addClass('bg-secondary text-white');
+
+
+		});
+
+
+	</script>
+}

@@ -366,3 +366,4 @@ AS
 			AND c.DeletedAt is NULL
 		END
 	END
+

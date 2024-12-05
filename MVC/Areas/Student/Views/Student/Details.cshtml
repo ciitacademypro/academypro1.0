@@ -1,0 +1,416 @@
+﻿@model LmsModels.Student.StudentModel
+
+@{
+	int enrollmentId = 0;
+	double maxAmount = 0;
+	if(ViewBag.FirstPendingPayment != null && ViewBag.FirstPendingEnrollmentId != null ){
+		var pendingPayment = ViewBag.FirstPendingPayment;
+		enrollmentId = ViewBag.FirstPendingEnrollmentId;
+		maxAmount= pendingPayment.InstallmentAmount- pendingPayment.AmountPaid;
+	}
+	
+	ViewData["Title"] = "Student Details";
+
+}
+
+@section css{
+
+
+<style>
+.img148 img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.prfledt1 {
+    margin-left: 20px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.dp_dt150 {
+    display: flex;
+    align-items: center;
+}
+
+.dot{
+	font-size: 10px;
+	float:right;
+}
+
+</style>
+
+}
+
+
+			<div class="container-fluid">			
+				<div class="row">
+					<div class="col-lg-12">	
+					<a asp-action="index" asp-controller="Student" asp-area="Student" class="btn btn-default btn-success" style="float:right; position:relative;">Student Dashboard</a>
+						<h2 class="st_title"><i class="uil uil-user"></i> Student Details</h2>
+
+					@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+
+					</div>					
+				</div>				
+				<div class="row">					
+					<div class="col-lg-4 col-md-5">
+
+						<div class="top_countries mt-30">
+							<div class="payout_content">
+								<i class="dot @(Model.Status?"text-success":"text-danger")">@Model.StatusLabel</i>
+                                <div class="dp_dt150">
+                                    <div class="img148">
+                                        <img src="@Url.Content("~/"+Model.ProfilePhoto)" alt="">
+                                    </div>
+                                    <div class="prfledt1">
+                                        <h3>@Model.StudentName.ToUpper()</h3>
+                                        <span>@Model.StudentCode</span>
+                                    </div>
+                                </div>
+
+								<p><small class="payout__small-notification">
+								<a href="javascript:;" style="float:right;" class=" btn-lg" id="btn-toggle-profile-edit">
+									<i class="fas fa-edit"></i>
+								</a>
+
+                                    <strong>
+                                        <i class="fas fa-mobile"></i> &nbsp; @Model.MobileNumber &nbsp; | &nbsp;
+                                        <i class="fas fa-envelope"></i> &nbsp; @Model.EmailAddress
+                                        
+                                    </strong>
+                                </strong></small></p>
+								<div id="profile-edit-form" class="d-none">
+									<hr>
+                                <form method="post" asp-action="edit" asp-controller="Student" asp-area="Student">
+                                    <input type="hidden" name="StudentId" value="@Model.StudentId" />
+                                    <input type="hidden" name="redirectTo" value="details" />
+
+                                    <div class="col-md-12 mb-4">
+										<div class="form-group">
+											<label class="mb-2 text-muted">Student Name</label>
+											<input type="text" name="StudentName" class="form-control" placeholder="Student Name" value="@Model.StudentName" required />
+											<span class="text-danger"></span>
+										</div>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+										<div class="form-group">
+											<label  class="mb-2 text-muted">Mobile Number</label>
+											<input type="text" name="MobileNumber" class="form-control" placeholder="Mobile Number" value="@Model.MobileNumber" required />
+										</div>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+										<div class="form-group">
+											<label  class="mb-2 text-muted">Email Address</label>
+											<input type="email" name="EmailAddress" class="form-control" placeholder="Email Address" value="@Model.EmailAddress" required />
+										</div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="top_countries mt-30">
+							<div class="top_countries_title">
+                                
+								<h2 ><i class="fas fa-user-lock " ></i> &nbsp; Change Password 
+                                    <a href="javascript:;" class="btn-lg " id="btn-toggle-password-change" style="float:right; position: relative;">
+                                        <i class="uil uil-refresh " ></i>
+                                    </a>
+                                </h2>
+							</div>
+							<div class="payout_content d-none" id="password-change-form">
+                                <form method="post" asp-action="ChangePassword" asp-controller="Student" asp-area="Student">
+                                    <input type="hidden" asp-for="StudentId" />
+                                    <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                        <label asp-for="Password" class="mb-2"></label>
+                                        <input type="password" name="Password" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                    <div class="form-group">
+                                            <label for="ConfirmPassword" class="mb-2">Confirm Password</label>
+                                            <input type="password" name="ConfirmPassword" class="form-control" required />
+                                    </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </form>
+							</div>
+						</div>
+
+						<div class="top_countries mt-30">
+							<div class="top_countries_title">
+                                
+								<h2 ><i class="fas fa-image " ></i> &nbsp; Change Profile Image 
+                                    <a href="javascript:;" class="btn-lg " id="btn-toggle-profile-photo-change" style="float:right; position: relative;">
+                                        <i class="uil uil-refresh " ></i>
+                                    </a>
+                                </h2>
+							</div>
+							<div class="payout_content d-none" id="profile-photo-change-form">
+                                <form method="post" enctype="multipart/form-data" asp-action="UpdateProfilePhoto" asp-controller="Student" asp-area="Student">
+                                    <input type="hidden" asp-for="StudentId" />
+                                    <div class="col-md-12">
+                                    <div class="form-group my-3">
+                                        <input type="file" class="form-control" name="profilePhoto" id="profilePhoto" required />
+                                    </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Profile Photo</button>
+                                </form>                                
+							</div>
+						</div>
+
+
+						<div class="top_countries mt-30 d-none">
+							<div class="top_countries_title">
+								<h2 >Upcoming Installment</h2>
+							</div>
+							<div class="payout_content">
+								<span><strong>&#8377; 3000</strong></span>
+								<div class="payout__via">
+									<strong><i class="fas fa-calendar"></i> 5th Nov 2024</strong>
+								</div>
+								<p><a href="#" class="payout__btn ">Pay Now</a></p>
+							</div>
+						</div>
+
+
+
+
+					</div>
+					<div class="col-lg-8 col-md-7">
+
+						@if(ViewBag.FirstPendingPayment != null && ViewBag.FirstPendingEnrollmentId != null ){
+								<!-- Modal trigger button -->
+								<button
+									type="button"
+									class="btn btn-primary btn-lg"
+									data-bs-toggle="modal"
+									data-bs-target="#modalId"
+								>
+									Pay Now
+								</button>
+
+							@section model{
+
+
+								<!-- Modal Body -->
+								<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+								<div
+									class="modal fade"
+									id="modalId"
+									tabindex="-1"
+									data-bs-backdrop="static"
+									data-bs-keyboard="false"
+									
+									role="dialog"
+									aria-labelledby="modalTitleId"
+									aria-hidden="true"
+								>
+									<div
+										class="modal-dialog modal-dialog-scrollable modal-dialog-top modal-md"
+										role="document"
+									>
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="modalTitleId">
+													Pay Installment
+												</h5>
+												<button
+													type="button"
+													class="btn-close"
+													data-bs-dismiss="modal"
+													aria-label="Close"
+												></button>
+											</div>
+											<form method="post" asp-action="PayInstallment" asp-controller="Enrollment" asp-area="Student" enctype="multipart/form-data" >
+												<div class="modal-body">
+												
+													<input type ="hidden" name="StudentId" value="@Model.StudentId" />
+													<input type ="hidden" name="EnrollmentId" value="@enrollmentId" />
+													<div class="row">
+														<div class="col-md-12">	
+															<div class="ui search focus mt-30 lbel25">
+																<label>Pay Blalance Amount*</label>
+																<small style="float:right; font-weight: bold;">Pay upto @maxAmount</small>
+
+																<div class="ui left icon input swdh11 swdh19">
+																	<input class="prompt srch_explore" type="number" name="AmountPaid" value="@maxAmount" id="AmountPaid" required="" min="1" max="@maxAmount" placeholder="0">		
+																	<i class="uil uil-rupee-alt icon icon8"> &#8377; </i>
+																	<i class="icons8 icons8-rupee"></i>
+
+																</div>
+															</div>										
+														</div>
+														<div class="col-md-4">
+															<div class="lbel25 mt-30">
+																<label>Payment Mode*</label>
+																<select class="ui hj145 dropdown cntry152 prompt srch_explore" name="PayMode" required>
+																	<option value="cash">Cash</option>
+																	<option value="Online">Online</option>
+																</select>
+															</div>
+														</div>
+														<div class="col-md-8">
+															<div class="ui search focus mt-30 lbel25">
+																<label>Transaction ID*</label>
+																<div class="ui left icon input swdh19">	
+																	<input class="prompt srch_explore" type="text" name="TransactionId" maxlength="10" placeholder="Transaction ID" required>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-12">
+															<div class="ui search focus mt-30 lbel25">
+																<label>Payment Proof (Screenshot)</label>
+																<div class="ui left icon input swdh19">	
+																	<input class="prompt srch_explore" type="file" name="ScreenShot" placeholder="CVC">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button
+														type="button"
+														class="btn btn-secondary"
+														data-bs-dismiss="modal"
+													>
+														Close
+													</button>
+													<button type="submit" class="btn btn-primary">Pay Now</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+
+							}
+						}
+						else {
+							@* <p>One or both values are null. FirstPendingPayment: @ViewBag.FirstPendingPayment, FirstPendingEnrollmentId: @ViewBag.FirstPendingEnrollmentId</p> *@
+						}
+
+
+
+						<div class="table-credits">
+							<div class="top_countries_title">
+							</div>
+
+							@foreach (var enrollment in ViewBag.payments)
+							{
+								<div class="table-responsive mt-30">
+									<table class="table ucp-table earning__table" id="content-table">
+
+										<thead class="thead-s">
+											<tr>
+												<th scope="col" colspan="6" style="background: gray; border-radius: 0px; color:white; text-align: center;">
+													<h4>@enrollment.CourseName <small class="text-white">(@enrollment.EnrollmentDate.ToString("MMM yyyy"))</small></h4>
+												</th>
+											</tr>
+											<tr>
+												<th scope="col">Installment</th>
+												<th scope="col">Amount</th>
+												<th scope="col">Paid Amount</th>
+												<th scope="col">Remaining Amount</th>
+												<th scope="col">Installment Date</th>
+												<th scope="col">Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											@{
+												double totalAmount = 0;
+												double paidAmount = 0;
+												double remainAmount = 0;
+												double remainAmountRow = 0;
+											}
+											@foreach (var payment in enrollment.Payments)
+											{
+												totalAmount += payment.InstallmentAmount;
+												paidAmount += payment.AmountPaid;
+												remainAmountRow = payment.InstallmentAmount - payment.AmountPaid;
+												remainAmount += remainAmountRow;
+												<tr>
+													<td>@payment.InstallmentCount</td>
+													<td>@payment.InstallmentAmount.ToString("0.00")</td>
+													<td>@payment.AmountPaid.ToString("0.00")</td>
+													<td>
+														@if(remainAmountRow > 0)
+														{
+															<span class="text-danger">@remainAmountRow.ToString("0.00")</span>
+														}else{
+															<span class="text-success">0</span>
+														}
+													</td>
+													<td>@payment.InstallmentDate.ToString("dd MMM yyyy")</td>
+													<td>
+
+														@if(payment.Status)
+														{
+															<i class="badge bg-success">Paid</i>
+														}else{
+															if(payment.AmountPaid > 0){
+																<i class="badge bg-warning">Partial Paid</i>
+															}
+															else{
+															<i class="badge bg-danger">Unpaid</i>
+
+															}
+														}
+														@* @(payment.Status ? "Paid" : (payment.AmountPaid > 0 ? "Partial Paid" : "Unpaid"))</td> *@
+												</tr>
+											}
+										</tbody>
+										<tfoot >
+											<tr >
+												<td style="background: #eee;"></td>
+												<td style="background: #eee; color:#333">@totalAmount</td>
+												<td style="background: #eee; color:#333">@paidAmount</td>
+												<td style="background: #eee; color:#333">@remainAmount</td>
+												<td style="background: #eee; color:#333"></td>
+												<td style="background: #eee; color:#333"></td>
+											</tr>
+										</tfoot>				
+									</table>
+								</div>
+							}
+
+	
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+@section Scripts{
+
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelPartial.cshtml")
+
+    <script>
+
+        $('#btn-toggle-password-change').click(()=>{
+            $('#password-change-form').toggleClass('d-none');
+        })
+
+        $('#btn-toggle-profile-photo-change').click(()=>{
+            $('#profile-photo-change-form').toggleClass('d-none');
+        })
+
+        $('#btn-toggle-profile-edit').click(()=>{
+            $('#profile-edit-form').toggleClass('d-none');
+        })
+		
+    </script>
+
+
+
+}

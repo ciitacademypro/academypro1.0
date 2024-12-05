@@ -1,0 +1,56 @@
+﻿@model IEnumerable<LeadModel>
+
+
+@{
+
+	ViewData["Title"] = "Leads";
+	int serialNumber = 1; // Initialize the serial number
+
+
+	// Modify only Title, AreaName, ControllerName, primaryKey, columnDisplayNames, displayColumns,
+
+	ViewData["Title"] = "Leads";
+	ViewData["AreaName"] = "Student";
+	ViewData["ControllerName"] = "Lead";
+	ViewData["primaryKey"] = "LeadId";
+
+	// Model-Columns as tbody-Data, Table-Headings as Values
+	var columnDisplayNames = new Dictionary<string, string>
+	{
+		{ "FirstName", "First Name" },
+		{ "LastName", "Last Name" },
+		{ "MobileNumber", "MobileNumber" },
+		{ "EmailAddress", "Email Address" },
+		{ "LeadSourceName", "Lead Source" },
+		{ "CourseName", "Course Name" },
+		{ "QualificationName", "Qualification Name" },
+		{ "PassoutYear", "Passout Year" },
+	};
+
+	// Pass dictionary via ViewData
+	ViewData["ColumnDisplayNames"] = columnDisplayNames;
+
+
+	// List of columns to concatenate for data-delete_display
+	var displayColumns = new List<string> { "FirstName", "LastName"};
+	ViewData["DisplayColumns"] = displayColumns;
+
+	// Passing complete model, don't change this
+	ViewData["ListData"] = Model;
+
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<a class="btn btn-default btn-success" style="float:right; position:relative;" asp-action="create" asp-controller="@ViewData["ControllerName"]" asp-area="@ViewData["AreaName"]">Create New @ViewData["ControllerName"] </a>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> @ViewData["Title"] </h2>
+			@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+		</div>
+	</div>
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DynamicTablePartial.cshtml")
+</div>
+
+@section Scripts {
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelPartial.cshtml")
+}

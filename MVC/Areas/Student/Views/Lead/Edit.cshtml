@@ -1,0 +1,168 @@
+﻿@model LeadModel
+
+@{
+	ViewData["Title"] = "Edit Lead";
+	int CurrentYear = DateTime.Now.Year;
+	var StatusList = new List<string>(){
+		"New", "Contacted","Interested","Follow-Up","Enrolled","Not Interested","Pending","Closed"
+	};
+
+}
+
+
+<div class="container">
+
+	<div class="row">
+		<div class="col-lg-12">
+			<a asp-action="index" asp-controller="Lead" asp-area="Student" class="btn btn-default btn-success" style="float:right; position:relative;">Leads List</a>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> Edit Lead</h2>
+		</div>
+	</div>
+
+	<form method="post" asp-action="edit" asp-controller="Lead" asp-area="Student" id="formEditLead">
+
+		<input type="hidden" asp-for="LeadId" />
+
+		<div class="row">
+
+			 			<div class="col-12">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			</div>
+			
+			<div class="col-12 ">
+				<div class="">
+					<div id="add-course-tab" class="">
+						<div class="">
+							<div class="course__form">
+								<div class="general_info10">
+									<div class="row">
+
+										<div class="col-md-4 col-lg-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>First Name*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="text" asp-for="FirstName" placeholder="First Name here" maxlength="30">
+												</div>
+												<span asp-validation-for="FirstName" class="text-danger"></span>
+											</div>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Last Name*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="text" asp-for="LastName" placeholder="Last Name here" maxlength="30">
+												</div>
+												<span asp-validation-for="LastName" class="text-danger"></span>
+											</div>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Mobile Number*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="text" asp-for="MobileNumber" placeholder="Mobile Number here" maxlength="10">
+												</div>
+												<span asp-validation-for="MobileNumber" class="text-danger"></span>
+											</div>
+										</div>
+
+
+										<div class="col-md-4 col-lg-3">
+											<div class="ui search focus mt-30 lbel25">
+												<label>Email Address*</label>
+												<div class="ui left icon input swdh19">
+													<input class="prompt srch_explore" type="email" asp-for="EmailAddress" placeholder="Email Address here" maxlength="100">
+												</div>
+												<span asp-validation-for="EmailAddress" class="text-danger"></span>
+											</div>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="mt-30 lbel25">
+												<label>Lead Source*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="LeadSourceId" name="LeadSourceId">
+												<option value="">Select Lead Source</option>
+												@foreach (var item in ViewBag.LeadSources)
+												{
+													<option value="@item.LeadSourceId">@item.LeadSourceName</option>
+												}
+											</select>
+											<span asp-validation-for="LeadSourceId" class="text-danger"></span>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="mt-30 lbel25">
+												<label>Interested Course*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="CourseId" name="CourseId">
+												<option value="">Select Course</option>
+												@foreach (var item in ViewBag.Courses)
+												{
+													<option value="@item.CourseId">@item.CourseName</option>
+												}
+											</select>
+											<span asp-validation-for="CourseId" class="text-danger"></span>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="mt-30 lbel25">
+												<label>Qualification*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="QualificationId" name="QualificationId">
+												<option value="">Select Course</option>
+												@foreach (var item in ViewBag.Qualifications)
+												{
+													<option value="@item.QualificationId">@item.QualificationName</option>
+												}
+											</select>
+											<span asp-validation-for="QualificationId" class="text-danger"></span>
+										</div>
+
+										<div class="col-md-4 col-lg-3">
+											<div class="mt-30 lbel25">
+												<label>Passout Year*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="PassoutYear">
+												<option value="">Select Year</option>
+												@for (int year = (CurrentYear - 10); year <= CurrentYear; year++)
+												{
+													<option value="@year">@year</option>
+												}
+											</select>
+											<span asp-validation-for="PassoutYear" class="text-danger"></span>
+										</div>
+
+
+										<div class="col-md-4 col-lg-3">
+											<div class="mt-30 lbel25">
+												<label>Status*</label>
+											</div>
+											<select class="ui hj145 dropdown cntry152 prompt srch_explore" asp-for="Status">
+												<option value="">Select Status</option>
+												@foreach (string status in StatusList)
+												{
+													<option value="@status">@status</option>
+												}
+											</select>
+											<span asp-validation-for="PassoutYear" class="text-danger"></span>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="step-footer step-tab-pager flex content-justify-center" style="margin-bottom:50px; display: flex; justify-content: center; align-items: center;">
+								<button type="submit" class="btn btn-lg btn-default steps_btn">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+	</form>
+
+
+</div>

@@ -1,0 +1,371 @@
+﻿@model IEnumerable<LeadModel>
+@{
+
+	ViewData["Title"] = "Leads";
+	int serialNumber = 1; // Initialize the serial number
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+
+			<a class="btn btn-default btn-success px-1 py-0" style="float:right; position:relative;" asp-action="create" asp-controller="lead" asp-area="student">
+				<i class="uil uil-user-plus" style="font-size:24px; padding:0px; margin:0px;"></i><br/>
+				Add New
+				</a>
+
+			<button type="button" class="btn btn-primary mx-2 px-1 py-0" style="float:right; position:relative;" id="assign_model">
+				<i class="uil uil-book-reader" style="font-size:24px; padding:0px; margin:0px;"></i> <br />Assign
+			</button>
+
+			<h2 class="st_title"><i class="uil uil-analysis"></i> @ViewData["Title"] </h2>
+			<div class="col-md-4 col-lg-3">
+				<div class="mt-30 lbel25">
+				</div>
+					<select class="form-control" id="drpAssignedTo">
+						<option value="-1">Fresh Leads</option>
+						<option value="0" >Assigned Leads</option>
+						@foreach (var item in ViewBag.Employees)
+						{
+							<option value="@item.Id">
+								@item.Name
+							</option>
+						}
+					</select>
+			</div>
+			<div class="col-md-4 col-lg-3 d-none" id="assignedToEmp">
+				<form method="post" asp-action="AssignTo" asp-controller="Lead" asp-area="Student" >
+				<div class="mt-30 lbel25">
+					<label> Assign To Staff</label>
+				</div>
+					<select class="form-control required" id="drpAssignedToEmp" name="EmployeeId" required>
+						<option value="" selected diasabled>Select Staff</option>
+					@foreach (var item in ViewBag.Employees)
+					{
+						<option value="@item.Id">
+							@item.Name
+						</option>
+					}
+				</select>
+
+					<input type="hidden" name="LeadIds" id="LeadIds" required />
+
+				<button type="submit" class="btn btn-info">Assign Now</button>
+				</form>
+			</div>
+
+			@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="table-responsive mt-30">
+				<table class="table ucp-table">
+					<thead class="thead-s">
+						<tr>
+							<th class="text-center check-assign d-none" scope="col">
+								<div class="inline field" >
+									<div class="ui checkbox ">
+										<input type="checkbox" tabindex="0" class="hidden checkIds" id="checkAll" >
+									</div>
+								</div>
+
+							</th>
+							<th class="text-center" scope="col">#</th>
+							<th class="cell-ta" scope="col">Lead Name</th>
+							<th class="cell-ta" scope="col">Mobile Number</th>
+							<th class="cell-ta" scope="col">Email Address</th>
+							<th class="cell-ta" scope="col">LeadSource</th>
+							<th class="cell-ta" scope="col">Course</th>
+							<th class="cell-ta" scope="col">Qualification</th>
+							<th class="cell-ta" scope="col">Passout Year</th>
+							<th class="text-center" scope="col">Assigned To</th>
+							<th class="text-center" scope="col">Status</th>
+							<th class="text-center" scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td class="text-center check-assign d-none">
+									<div class="inline field">
+										<div class="ui checkbox">
+											<input type="checkbox" tabindex="0" class="hidden checkIds" name="checkIds[]" value="@item.LeadId">
+										</div>
+									</div>
+								</td>
+								<td class="text-center">@serialNumber</td>
+								<td class="cell-ta">@item.FirstName @item.LastName</td>
+								<td class="cell-ta">@item.MobileNumber</td>
+								<td class="cell-ta">@item.EmailAddress</td>
+								<td class="cell-ta">@item.LeadSourceName</td>
+								<td class="cell-ta">@item.CourseName</td>
+								<td class="cell-ta">@item.QualificationName</td>
+								<td class="cell-ta">@item.PassoutYear</td>
+								<td class="cell-ta">@item.AssignedToName</td>
+								<td class="cell-ta">@item.Status</td>
+								<td class="text-center">
+
+
+									<button type="button" class="btn btn-primary btn-followup"
+											data-bs-toggle="modal"
+											data-lead_id="@item.LeadId"
+											data-lead_name="@item.FirstName @item.LastName"
+											data-lead_mobile_number="@item.MobileNumber"
+											data-lead_email_address="@item.EmailAddress"
+											data-lead_source_name="@item.LeadSourceName"
+											data-course_name="@item.CourseName"
+											data-qualification_name="@item.QualificationName"
+											data-passout_year="@item.PassoutYear"
+											data-lead_status="@item.Status"
+											data-assigned_to_name="@item.AssignedToName"
+											data-remark="@item.Remark"
+											data-bs-target="#followup_model">
+										<i class="uil uil-comment-edit"></i>
+									</button>
+
+									<a class="btn btn-primary" asp-action="edit" asp-controller="lead" asp-area="student" asp-route-id="@item.LeadId">
+										<i class="uil uil-edit-alt"></i>
+									</a>
+									<button type="button" class="btn btn-primary btn-delete"
+											data-bs-toggle="modal"
+											data-delete_id="@item.LeadId"
+											data-delete_display="@item.FirstName @item.LastName"
+											data-bs-target="#delete_confirm_model">
+										<i class="uil uil-trash-alt"></i>
+
+									</button>
+
+								</td>
+							</tr>
+							serialNumber++;
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@section Scripts {
+	@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_DeleteModelPartial.cshtml")
+
+	<!-- Modal -->
+	<div class="modal fade" id="followup_model" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#eeeeee">
+					<h3 class="modal-title"><i class="uil uil-comment-edit"></i> Lead Details</h3>
+					<span id="assigned_to_name" class="badge bg-info mx-2">-</span>
+					<span id="lead_status" class="badge bg-secondary mx-2">-</span>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+				</div>
+				<div class="modal-body p-4">
+					<div style="max-height:150px; overflow:auto;">
+					<table class="table" >
+						<tr>
+							<th>Lead Name</th>
+								<td><span id="lead_name">-</span></td>
+						</tr>
+						<tr>
+							<th>Mobile Number</th>
+								<td><span id="lead_mobile_number">-</span></td>
+						</tr>
+						<tr>
+							<th>Email Address</th>
+								<td><span id="lead_email_address">-</span></td>
+						</tr>
+ 						<tr>
+							<th>Intrested Course</th>
+								<td><span id="course_name">-</span></td>
+						</tr>
+						<tr>
+							<th>Lead Source</th>
+								<td><span id="lead_source_name">-</span></td>
+						</tr>
+						<tr>
+							<th>Last Qualification</th>
+								<td><span id="qualification_name">-</span> <span class="mx-2" id="passout_year">(-)</span></td>
+						</tr>
+					</table>
+					</div>
+
+					<div class="text-center">
+						
+						<button type="button" class="btn btn-outline-primary"><i class="uil uil-envelope-alt"></i> Send Email</button>
+						<button type="button" class="btn btn-outline-secondary"><i class="uil uil-whatsapp"></i>Whatsapp</button>
+						<button type="button" class="btn btn-outline-success"><i class="uil uil-comment-alt-message"></i> SMS</button>
+
+						<form method="post" id="formDelete" asp-area="Student" asp-controller="Lead" asp-action="UpdateRemark">
+							<div class="my-3 shadow">
+								<textarea class="form-control p-3" style="background-color:#eeeeee" name="Remark" id="remark" rows="5" placeholder="Add Remark Here"></textarea>
+							</div>
+
+						<div class="my-3">
+							<div class="ui ">
+									<div class=" fltr-radio form-check form-check-inline">
+										<div class="ui radio checkbox">
+											<input type="radio" tabindex="0" class="hidden" name="Status" id="status_Contacted" value="Contacted">
+											<label>Contacted</label>
+										</div>
+									</div>
+									<div class=" form-check form-check-inline">
+										<div class="ui radio checkbox">
+											<input type="radio" tabindex="0" class="hidden" name="Status" id="status_Follow-Up" value="Follow-Up">
+											<label>Followup</label>
+										</div>
+									</div>
+									<div class=" form-check form-check-inline">
+										<div class="ui radio checkbox">
+											<input type="radio" tabindex="0" class="hidden" name="Status" id="status_Interested" value="Interested">
+										<label>Interested</label>
+										</div>
+									</div>
+									<div class=" fltr-radio form-check form-check-inline">
+										<div class="ui radio checkbox">
+											<input type="radio" tabindex="0" class="hidden" name="Status" id="status_Not_Interested" value="Not Interested">
+										<label>Not Interested</label>
+										</div>
+									</div>
+							</div>
+
+						</div>
+
+
+							<input type="hidden" name="LeadId" id="lead_id" value="" />
+						<input type="submit" value="Save Changes" class="main-btn" id="btnFormDelete" />
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+
+
+		$('.btn-followup').click(function(event){
+
+			let dataAttributes = $(this).data();
+			console.log(dataAttributes);
+
+
+
+			// Optionally, you can loop through and access individual attributes
+			$.each(dataAttributes, function (key, value) {
+
+
+				if (key == 'lead_status') {
+					if (value == "Contacted") {
+						$('#status_Contacted').attr('checked', true);
+					}
+					else if (value == "Follow-Up") {
+						$('#status_Follow-Up').attr('checked', true);
+					}
+					else if (value == "Interested") {
+						$('#status_Interested').attr('checked', true);
+					}
+					else if (value == "Not Interested") {
+						$('#status_Not_Interested').attr('checked', true);
+					}
+				}
+
+				if (key == 'lead_id') {
+					$('#' + key).val(value);
+				}
+				else if (key == 'passout_year') {
+					$('#' + key).text(`(${value})`);
+				}
+
+				else if (key == 'assigned_to_name') {
+					$('#' + key).text(`Assigned To: ${value}`);
+				}
+				
+
+				else {
+					$('#' + key).text(value);
+				}
+
+				console.log(key+' : '+value);
+			});
+
+		})
+
+
+		$('#assign_model').click(() => {
+			$('.check-assign').toggleClass('d-none');
+		})
+
+		$('#checkAll').on('change', function () {
+			let isChecked = $('#checkAll').is(':checked');
+			$('.checkIds').prop('checked', isChecked);
+
+			var checkedValues = $("input[name='checkIds[]']:checked").not("#checkAll").map(function () {
+				return $(this).val();
+			}).get();
+
+			if (!isChecked) {
+				$('#LeadIds').val('')
+				$('#assignedToEmp').addClass('d-none');
+			}
+			else
+			{
+				$('#LeadIds').val(checkedValues.join(','));
+				if (checkedValues.length == 0) {
+					$('#assignedToEmp').addClass('d-none');
+				} else {
+					$('#assignedToEmp').removeClass('d-none');
+				}
+
+			}
+		});
+
+		$("input[name='checkIds[]']").change(()=>{
+			var checkedValues = $("input[name='checkIds[]']:checked").not("#checkAll").map(function () {
+				return $(this).val();
+			}).get();
+			$('#LeadIds').val(checkedValues.join(','));
+
+			if (checkedValues.length == 0){
+				$('#assignedToEmp').addClass('d-none');
+			}else{
+				$('#assignedToEmp').removeClass('d-none');
+			}
+				
+			console.log(checkedValues); // This will print the array of checked values
+		});
+
+		$('#drpAssignedTo').on('change', function () {
+			let selectedValue = $('#drpAssignedTo option:selected').val();
+			window.location.href = "/student/lead/index/" + selectedValue;
+		});
+
+
+		
+		$(document).ready(function () {
+
+			// $("#followup_model").modal('show')
+
+			$('.ui.radio.checkbox').checkbox();
+
+
+			// Function to get 'id' parameter from URL
+			var assignedToId = window.location.pathname.split('/').pop();
+
+			// If the 'id' is not exisit, set the select value -1
+			if (isNaN(Number(assignedToId))){
+				assignedToId = "-1";
+			}
+
+			$('#drpAssignedTo').val(assignedToId).select();
+		});
+	</script>
+
+
+}

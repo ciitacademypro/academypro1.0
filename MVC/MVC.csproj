@@ -28,6 +28,8 @@
     <Folder Include="Areas\Course\Models\" />
     <Folder Include="Areas\Employee\Data\" />
     <Folder Include="Areas\Employee\Models\" />
+    <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Student\Models\" />
   </ItemGroup>
 
   <ItemGroup>

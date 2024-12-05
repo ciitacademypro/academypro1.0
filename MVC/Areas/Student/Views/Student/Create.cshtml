@@ -1,0 +1,79 @@
+﻿@model StudentAddModel
+@{
+    ViewData["Title"] = "New Student";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Create New Student</h2>
+
+            <span asp-validation-summary="All" class="text-danger "></span>
+            <span asp-validation-summary="ModelOnly" class="text-danger"></span>
+
+        </div>
+    </div>
+
+    <form method="post" asp-action="create" asp-controller="Student" asp-area="Student" enctype="multipart/form-data">
+        <a href="@Url.Action("Index", "Student", new { area = "Student" })" class="btn btn-primary">View All Students</a>
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <div id="add-student-tab" class="">
+                        <div class="">
+
+                            <div class="student__form">
+                                <div class="general_info10">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="ui search focus mt-30 lbel25">
+                                                <label>Student Name*</label>
+                                                <div class="ui left icon input swdh19">
+                                                    <input class="prompt srch_explore" type="text" asp-for="StudentName" placeholder="Student name here" maxlength="100" />
+                                                </div>
+                                                <span asp-validation-for="StudentName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="ui search focus lbel25 mt-30">
+                                                <label>Mobile Number*</label>
+                                                <div class="ui left icon input swdh19">
+                                                    <input class="prompt srch_explore" type="text" asp-for="MobileNumber" placeholder="Mobile number here" maxlength="15" />
+                                                </div>
+                                                <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="ui search focus lbel25 mt-30">
+                                                <label>Email Address*</label>
+                                                <div class="ui left icon input swdh19">
+                                                    <input class="prompt srch_explore" type="email" asp-for="EmailAddress" placeholder="Email address here" maxlength="50" />
+                                                </div>
+                                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-footer step-tab-pager flex content-justify-center" style="margin-bottom:50px; display: flex; justify-content: center; align-items: center;">
+                            <button type="submit" class="btn btn-lg btn-default steps_btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>@ViewBag.msg</h2>
+
+    </form>
+</div>
+
+@section css {
+    <link href="~/css/jquery-steps.css" rel="stylesheet">
+    <link href="~/css/jquery-steps.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <script src="~/js/jquery-steps.min.js"></script>
+}

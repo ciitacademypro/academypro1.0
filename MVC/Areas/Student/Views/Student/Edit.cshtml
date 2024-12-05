@@ -1,0 +1,93 @@
+﻿@model StudentModel
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a asp-action="index" asp-controller="student" asp-area="student" class="btn btn-default btn-success" style="float:right; position:relative;">Student List</a>
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Create New Student</h2>
+
+        </div>
+    </div>
+    
+    <form method="post" asp-action="Edit" asp-controller="Student" asp-area="Student">
+        <input type="hidden" asp-for="StudentId" />
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 ">
+                        <div class="row">
+
+                            <div class="col-md-4 col-lg-3">
+                                <div class="mt-30 lbel25">
+                                    <label asp-for="StudentName"></label>
+                                    <div class="ui left icon input swdh19">
+                                        <input class="prompt srch_explore" type="text" asp-for="StudentName" placeholder="Student Name">
+                                    </div>
+                                    <span asp-validation-for="StudentName" class="text-danger help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3">
+                                <div class="mt-30 lbel25">
+                                    <label asp-for="StudentCode"></label>
+                                    <div class="ui left icon input swdh19">
+                                        <input class="prompt srch_explore" type="text" asp-for="StudentCode" placeholder="Student Code">
+                                    </div>
+                                    <span asp-validation-for="StudentCode" class="text-danger help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3">
+                                <div class="mt-30 lbel25">
+                                    <label asp-for="MobileNumber"></label>
+                                    <div class="ui left icon input swdh19">
+                                        <input class="prompt srch_explore" type="text" asp-for="MobileNumber" placeholder="Student Code">
+                                    </div>
+                                    <span asp-validation-for="MobileNumber" class="text-danger help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3">
+                                <div class="mt-30 lbel25">
+                                    <label asp-for="EmailAddress"></label>
+                                    <div class="ui left icon input swdh19">
+                                        <input class="prompt srch_explore" type="email" asp-for="EmailAddress" placeholder="Student Code">
+                                    </div>
+                                    <span asp-validation-for="EmailAddress" class="text-danger help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-12">
+                                <div class="cogs-toggle my-3">
+                                    <label class="switch">
+                                        <input type="checkbox" asp-for="Status" />
+                                        <span></span>
+                                    </label>
+                                    <label for="Status" class="lbl-quiz">Status</label>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12">
+                                <div class="step-footer step-tab-pager flex content-justify-center" style="margin-bottom:50px; display: flex; justify-content: center; align-items: center;">
+                                    <button type="submit" class="btn btn-lg btn-default steps_btn">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </form>
+
+</div>
+
+

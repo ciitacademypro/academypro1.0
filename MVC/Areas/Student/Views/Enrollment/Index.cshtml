@@ -1,0 +1,71 @@
+﻿@model IEnumerable<StudentEnrollmentModel>
+
+@{
+    ViewData["Title"] = "Student Enrollments";
+    ViewData["AreaName"] = "Student";
+	ViewData["ControllerName"] = "Enrollment";
+	int serialNumber = 1;
+}
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<a class="btn btn-default btn-success" style="float:right; position:relative;" asp-action="index" asp-controller="Student" asp-area="@ViewData["AreaName"]" asp-route-status="0">Create New @ViewData["ControllerName"] </a>
+			<h2 class="st_title"><i class="uil uil-analysis"></i> @ViewData["Title"] </h2>
+			@await Html.PartialAsync("~/Areas/Admin/Views/Partials/_AlertPartial.cshtml")
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="table-responsive mt-30">
+<table class="table ucp-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Student Name</th>
+            <th>Enrolled Date</th>
+            <th>Course Name</th>
+            <th>Enrollment Type</th>
+            <th>Discount Code</th>
+            <th>Paid Amount</th>
+            <th>Start Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+           @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@serialNumber</td>
+                    <td>@s.StudentName</td>
+                    <td>@s.EnrollmentDate</td>
+                    <td>@s.CourseName</td>
+                    <td>@s.EnrollmentType</td>
+                    <td>@s.DiscountAmount</td>  
+                    <td>@s.PaidAmount</td>    
+                    <td>@s.StartDate</td>
+                    <td>@s.StatusLabel</td>
+                    <td>
+                    <a asp-action="Edit" asp-controller="Enrollment" asp-area="Student" asp-route-id="@s.StudentEnrollmentId">Edit</a>
+                    &nbsp;
+                    <a asp-action="Delete" asp-controller="Enrollment" asp-area="Student" asp-route-id="@s.StudentEnrollmentId">Delete</a>
+
+                    </td>
+                </tr>
+                serialNumber++;
+            }
+    </tbody>
+</table>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
