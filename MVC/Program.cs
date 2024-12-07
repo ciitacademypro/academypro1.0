@@ -47,7 +47,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 	options.Cookie.Name = "AcademyPro";
 	options.Cookie.HttpOnly = true;
-	options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 	options.LoginPath = "/Identity/Account/Login";
 	// ReturnUrlParameter requires 
 	//using Microsoft.AspNetCore.Authentication.Cookies;
@@ -112,8 +112,10 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Register custom UserInfoMiddleware
+// Register custom Middlewares
 app.UseMiddleware<UserInfoMiddleware>();
+//app.UseMiddleware<CacheValidationMiddleware>(); 
+
 
 app.UseSession(); // Add this line to enable session middleware
 

@@ -20,7 +20,6 @@ namespace MVC.Middleware
 		//}
 
 
-
 		// Constructor to inject dependencies
 		public UserInfoMiddleware(RequestDelegate next, IMemoryCache memoryCache, IServiceScopeFactory serviceScopeFactory)
 		{
